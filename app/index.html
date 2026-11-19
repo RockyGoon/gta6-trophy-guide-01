@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leonida Platinum — GTA VI Trophy Guide &amp; Tracker</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="masthead">
+  <div class="masthead-text">
+    <p class="kicker">Grand Theft Auto VI &middot; PlayStation 5 &middot; 19 Nov 2026</p>
+    <h1>Leonida Platinum</h1>
+    <p class="subtitle">The offline guide and tracker for all 55 GTA VI trophies — every official name, description and grade, a cited guide for each one, a roadmap to the platinum, and a checklist that saves in your browser.</p>
+  </div>
+  <div class="progress-card" id="progressCard">
+    <p class="big-count"><span id="earnedCount">0</span><span class="of"> / 55</span></p>
+    <p class="progress-label" id="progressLabel">0 of 55 trophies earned</p>
+    <div class="bar" role="progressbar" aria-label="Trophies earned" aria-valuemin="0" aria-valuemax="55" aria-valuenow="0" id="progressBarWrap"><div class="bar-fill" id="progressFill" style="width:0%"></div></div>
+    <p class="grade-counts" id="gradeCounts">1 platinum &middot; 2 gold &middot; 6 silver &middot; 46 bronze</p>
+    <p class="platinum-note">Platinum: ~200 hours &middot; 28 hidden &middot; 1 missable &middot; no online trophies</p>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Sections">
+  <button type="button" class="tab active" data-view="checklist" id="tabChecklist">Checklist</button>
+  <button type="button" class="tab" data-view="roadmap" id="tabRoadmap">Roadmap to Platinum</button>
+  <button type="button" class="tab" data-view="missable" id="tabMissable">Missable — read first</button>
+</nav>
+
+<section class="controls" aria-label="Filters and save">
+  <label class="search-label">Search <input id="search" type="search" placeholder="Name, mission or keyword…" autocomplete="off"></label>
+  <label>Kind
+    <select id="kind">
+      <option value="all">All kinds</option>
+      <option value="story">Story</option>
+      <option value="missable">Missable</option>
+      <option value="collectible">Collectibles</option>
+      <option value="activity">Activities</option>
+      <option value="completion">100% completion</option>
+      <option value="platinum">Platinum</option>
+    </select>
+  </label>
+  <label>Grade
+    <select id="grade">
+      <option value="all">All grades</option>
+      <option value="platinum">Platinum</option>
+      <option value="gold">Gold</option>
+      <option value="silver">Silver</option>
+      <option value="bronze">Bronze</option>
+    </select>
+  </label>
+  <label class="check-label"><input id="earnedOnly" type="checkbox"> Earned only</label>
+  <label class="check-label"><input id="missableOnly" type="checkbox"> Missable only</label>
+  <label class="check-label spoiler-label"><input id="spoiler" type="checkbox"> Hide spoilers <span class="hint">story names hidden until earned</span></label>
+  <span class="spacer"></span>
+  <button id="export" type="button">Export progress</button>
+  <label class="import-label">Import progress <input id="import" type="file" accept="application/json,.json"></label>
+  <button id="reset" type="button" class="quiet">Reset</button>
+</section>
+
+<main>
+  <section id="viewChecklist" class="view">
+    <div class="layout">
+      <div class="list-col">
+        <p class="list-meta" id="listMeta">Showing 55 of 55 trophies</p>
+        <ul class="trophy-list" id="trophyList"></ul>
+        <p class="empty" id="emptyNote" hidden>No trophies match these filters. Clear the search or a filter to see the full list.</p>
+      </div>
+      <aside class="detail" id="detailPane" aria-label="Trophy guide">
+        <p class="detail-empty" id="detailEmpty">Select a trophy to read its guide and sources. The guide opens here, beside the checklist.</p>
+        <article id="detailCard" hidden></article>
+      </aside>
+    </div>
+  </section>
+
+  <section id="viewRoadmap" class="view" hidden>
+    <h2>Roadmap to the platinum — Vice Got a Price!</h2>
+    <p class="roadmap-intro">About 200 hours, one playthrough, no online trophies, no difficulty trophies, no mission medals. The order below is built from the official descriptions: story first, then the side strands, then the free-roam cleanup — with the single missable trophy done in Chapter 1, before anything else. Cheats disable trophies and saving, so never use them on your trophy save. There is no mission replay and no New Game Plus, so keep a manual save at the start of every chapter and one before the final mission.</p>
+    <ol class="roadmap" id="roadmapList"></ol>
+    <h3>Missable trophies</h3>
+    <p>Only one trophy in the whole list can be missed: <strong>Positive Mental Attitude</strong> — Lucia's balcony meditation at Jason's house, available only in Chapter 1 after the mission Down to Earth. It is gone once Chapter 1 ends. Do it before you leave Chapter 1 and keep a Chapter 1 save until the trophy pops. Everything else can be finished in free roam after the credits.</p>
+    <h3>What counts toward 100%</h3>
+    <p>The gold trophy <strong>A Long Road</strong> needs the in-game 100% checklist (Progress &gt; Stats &gt; 100% Completion, visible after the story). Its parts are the story, the side strands, 15 of the 18 meditation spots, the collectible card sets, the challenges and the exploration of all 52 areas. Nothing on that checklist is missable.</p>
+  </section>
+
+  <section id="viewMissable" class="view" hidden>
+    <h2>Missable — read this first</h2>
+    <div class="missable-box">
+      <p class="missable-flag">⚠ 1 MISSABLE TROPHY IN THE WHOLE GAME</p>
+      <h3>Positive Mental Attitude <span class="grade-pill bronze">Bronze</span></h3>
+      <p><em>Official description: “Meditate at every spot across Leonida.”</em></p>
+      <p>In Chapter 1, after the mission <strong>Down to Earth</strong>, find Lucia in the kitchen at Jason's house in the morning, when she talks about meditating. Follow her out to the balcony and accept her invitation. That balcony meditation raises your meditation counter by one, but it is not marked as a normal meditation spot — and whether the trophy strictly needs it is still unconfirmed by the guides. Do it anyway: it costs two minutes, and skipping it risks the whole platinum. Keep a manual save from the start of Chapter 1 until the trophy pops.</p>
+      <p>For the other spots: meditation spots show as purple icons when you are close, and meditating at a spot with both Jason and Lucia counts twice — always bring your partner. Track the count under Progress &gt; Collections &gt; Exploration &gt; Meditations. There are 18 spots in total; 15 count toward 100%.</p>
+      <p class="sources-line">Sources: <a href="https://www.powerpyx.com/gta-6-grand-theft-auto-vi-trophy-guide-roadmap/">PowerPyx — GTA 6 trophy guide &amp; roadmap</a> · <a href="https://www.keengamer.com/articles/guides/gta-6-trophy-guide-platinum-roadmap-all-55-trophies/">KeenGamer — GTA 6 trophy guide</a> · <a href="https://outputlag.com/guides/gta-6-trophy-list/">Output Lag — GTA 6 trophy list</a></p>
+      <button type="button" id="openMissable">Open its full guide in the checklist</button>
+    </div>
+    <p>Every other trophy in the list can be earned after the story, in free roam. No other trophy has a missable step that the guides have confirmed.</p>
+  </section>
+</main>
+
+<footer>
+  <p>Official trophy names, descriptions and grades as PlayStation publishes them, via <a href="https://www.exophase.com/game/grand-theft-auto-vi-psn/trophies/">Exophase</a> and <a href="https://psnprofiles.com/trophies/43531-grand-theft-auto-vi">PSNProfiles</a> (checked 18 Nov 2026). Guides are written for this entry, in our own words, and cite their sources beside each trophy. This guide works offline: it loads no file from the network and makes no network request. No Rockstar Games logo, artwork or screenshot is used. GTA VI launches 19 Nov 2026 on PS5 and Xbox Series X|S.</p>
+  <p>Progress is saved only in this browser (localStorage). Export it to a file to keep a backup or move it to another browser.</p>
+</footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>
