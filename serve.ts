@@ -1,21 +1,19 @@
-// A tiny static server for app/ (Node 22, standard library only), so the guide can be run locally without a
-// build step: `node serve.ts` serves app/ on http://localhost:8080 (`--port <n>` for another port,
-// `--host <addr>` to bind elsewhere). It sends the MIME types a browser needs, refuses any path outside app/,
-// and otherwise does nothing clever: this is a development convenience, not a web server for the internet.
+// A tiny static server for app/ (Node 22, standard library only).
+// Serves the guide locally so it can be tried in a browser and screenshotted:
+//   node serve.ts            -> http://localhost:8080
+//   node serve.ts --port 8081
+// It sends the MIME types a browser needs and refuses any path outside app/.
+// This is a development convenience, not a web server for the internet.
 import { createReadStream, statSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { extname, join, normalize, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const root = resolve(fileURLToPath(new URL('./app', import.meta.url)));
-const args = process.argv.slice(2);
-function flagValue(flag: string, fallback: string): string {
-  const at = args.indexOf(flag);
-  return at === -1 || at + 1 >= args.length ? fallback : args[at + 1];
-}
-const requestedPort = Number(flagValue('--port', '8080'));
-const port = Number.isInteger(requestedPort) && requestedPort > 0 && requestedPort < 65536 ? requestedPort : 8080;
-const host = flagValue('--host', '127.0.0.1');
+const appDir = resolve(fileURLToPath(new URL('./app', import.meta.url)));
+const argv = process.argv.slice(2);
+const portFlag = argv.indexOf('--port');
+const wanted = portFlag === -1 ? 8080 : Number(argv[portFlag + 1]);
+const port = Number.isInteger(wanted) && wanted > 0 && wanted < 65536 ? wanted : 8080;
 
 const MIME: Record<string, string> = {
   '.html': 'text/html; charset=utf-8',
@@ -29,9 +27,17 @@ const MIME: Record<string, string> = {
   '.jpeg': 'image/jpeg',
   '.webp': 'image/webp',
   '.ico': 'image/x-icon',
-  '.woff2': 'font/woff2',
-  '.webmanifest': 'application/manifest+json',
 };
+
+function insideApp(pathname: string): string | null {
+  // Resolve the request against appDir in one step: joining an absolute
+  // pathname onto appDir would discard appDir, so strip the leading slash
+  // first and resolve the remainder under appDir.
+  const rel = normalize(pathname.replace(/^\/+/, ''));
+  const file = resolve(join(appDir, rel));
+  if (file !== appDir && !file.startsWith(appDir + sep)) return null;
+  return file;
+}
 
 createServer((request, response) => {
   const url = new URL(request.url ?? '/', 'http://localhost');
@@ -43,8 +49,8 @@ createServer((request, response) => {
     return;
   }
   if (pathname.endsWith('/')) pathname += 'index.html';
-  const file = resolve(join(root, normalize(pathname)));
-  if (file !== root && !file.startsWith(root + sep)) {
+  const file = insideApp(pathname);
+  if (file === null) {
     response.writeHead(403).end('forbidden');
     return;
   }
@@ -63,6 +69,6 @@ createServer((request, response) => {
     'cache-control': 'no-store',
   });
   createReadStream(file).pipe(response);
-}).listen(port, host, () => {
-  console.log(`app/ is on http://${host}:${port}`);
+}).listen(port, '127.0.0.1', () => {
+  console.log(`app/ is on http://localhost:${port}`);
 });
