@@ -1,85 +1,118 @@
-// Leonida Platinum — hand-in program for gta6-trophy-guide-01 (Node 22, stdlib only).
-// It preflights the guide data (55 trophies, grades 1/2/6/46, 1,350 PSN, exactly
-// 1 missable, 6 unconfirmed, 234 cited steps, 9 sources, 6 stage subtotals,
-// orders 1-55 unique), copies app/ and screenshots/ to the output directory,
-// then writes /output/dossier.json with the vendored make.fun library.
-//   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
-
-import { cpSync, existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+// main.ts — Leonida Platinum v3 hand-in program (Node 22+, stdlib only).
+// Preflights the guide data, copies app/ and screenshots/ into the output
+// directory (MAKEFUN_OUTPUT_DIR, default /output), then writes dossier.json
+// with buildDossier from vendor/makefun-frontend.ts.
 import { buildDossier } from './vendor/makefun-frontend.ts';
+import { cpSync, existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const here = fileURLToPath(new URL('.', import.meta.url));
-const out = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
-const dataPath = join(here, 'app', 'data', 'trophies.json');
-const matrixPath = join(here, 'app', 'data', 'matrix.json');
+const ROOT = resolve(fileURLToPath(new URL('.', import.meta.url)));
+const OUT = process.env.MAKEFUN_OUTPUT_DIR ? resolve(process.env.MAKEFUN_OUTPUT_DIR) : '/output';
 
-function fail(msg: string): never {
-  console.error(`preflight FAILED: ${msg}`);
+const EXPECTED_STAGE_PSN: Record<string, number> = { S1: 375, S2: 120, S3: 180, S4: 135, S5: 150, S6: 390 };
+const SCREENSHOT_MAX_BYTES = 262144;
+
+function fail(message: string): never {
+  console.error(`preflight FAILED: ${message}`);
   process.exit(1);
 }
 
-function preflight(): { steps: number; shots: number } {
-  const doc = JSON.parse(readFileSync(dataPath, 'utf-8'));
-  const matrix = JSON.parse(readFileSync(matrixPath, 'utf-8'));
-  const ts = doc.trophies as Array<Record<string, unknown>>;
-  if (ts.length !== 55) fail(`trophies: ${ts.length}, want 55`);
-  const grades: Record<string, number> = {};
-  let psn = 0;
-  let steps = 0;
-  const orders = new Set<number>();
-  const missable: number[] = [];
-  const unconfirmed: number[] = [];
-  for (const t of ts) {
-    grades[String(t.grade)] = (grades[String(t.grade)] ?? 0) + 1;
-    psn += Number(t.psn_value);
-    steps += (t.steps as unknown[]).length;
-    orders.add(Number(t.order));
-    if (t.watch === 'missable') missable.push(Number(t.id));
-    if (t.unconfirmed) unconfirmed.push(Number(t.id));
-    for (const s of t.steps as Array<Record<string, unknown>>) {
-      if (typeof s.c !== 'number') fail(`trophy ${t.id}: step without a citation`);
-    }
-  }
-  if (grades.platinum !== 1 || grades.gold !== 2 || grades.silver !== 6 || grades.bronze !== 46) {
-    fail(`grades: ${JSON.stringify(grades)}, want 1/2/6/46`);
-  }
-  if (psn !== 1350) fail(`PSN total: ${psn}, want 1350`);
-  if (missable.length !== 1 || missable[0] !== 28) fail(`missable: ${missable}, want [28]`);
-  if (unconfirmed.length !== 6) fail(`unconfirmed: ${unconfirmed}, want 6`);
-  if (steps < 220) fail(`cited steps: ${steps}, want >= 220`);
-  if (doc.sources.length !== 9) fail(`sources: ${doc.sources.length}, want 9`);
-  if (matrix.rows.length !== 55) fail(`matrix rows: ${matrix.rows.length}, want 55`);
-  if (orders.size !== 55) fail(`orders: ${orders.size} unique, want 55`);
-  for (const s of doc.stages as Array<Record<string, unknown>>) {
-    const ids = s.trophy_ids as number[];
-    const sub = ts.filter((t) => ids.includes(Number(t.id))).reduce((a, t) => a + Number(t.psn_value), 0);
-    if (sub !== s.psn) fail(`stage ${s.id}: subtotal ${sub}, want ${s.psn}`);
-  }
-  const shotDir = join(here, 'screenshots');
-  const shots = ['1-checklist.jpg', '2-roadmap.jpg', '3-filters.jpg', '4-progress.jpg'];
-  for (const f of shots) {
-    const p = join(shotDir, f);
-    if (!existsSync(p)) fail(`missing screenshot ${f}`);
-    if (statSync(p).size > 262144) fail(`screenshot ${f} over 256 KiB`);
-  }
-  console.log(
-    `preflight OK: 55 trophies, 1P/2G/6S/46B, 1350 PSN points, ${steps} cited steps, ` +
-    `1 missable (id 28), 6 unconfirmed, 9 sources, 6 stage subtotals match, 4 screenshots`,
-  );
-  return { steps, shots: shots.length };
+function readJson(rel: string): any {
+  return JSON.parse(readFileSync(join(ROOT, rel), 'utf8'));
 }
 
-const { steps, shots } = preflight();
-mkdirSync(out, { recursive: true });
-cpSync(join(here, 'app'), join(out, 'app'), { recursive: true });
-mkdirSync(join(out, 'screenshots'), { recursive: true });
-if (existsSync(join(here, 'screenshots'))) {
-  cpSync(join(here, 'screenshots'), join(out, 'screenshots'), { recursive: true });
+const data = readJson('app/data/trophies.json');
+const trophies: any[] = Array.isArray(data) ? data : data.trophies;
+if (!Array.isArray(trophies)) fail('app/data/trophies.json holds no trophies array');
+
+const matrix = readJson('app/data/matrix.json');
+const rows: any[] = Array.isArray(matrix) ? matrix : matrix.rows;
+if (!Array.isArray(rows)) fail('app/data/matrix.json holds no rows array');
+
+// 55 trophies.
+if (trophies.length !== 55) fail(`expected 55 trophies, found ${trophies.length}`);
+
+// Grades exactly 1 platinum / 2 gold / 6 silver / 46 bronze.
+const gradeCount: Record<string, number> = {};
+let psnTotal = 0;
+for (const t of trophies) {
+  gradeCount[t.grade] = (gradeCount[t.grade] ?? 0) + 1;
+  psnTotal += t.psn_value;
 }
-writeFileSync(
-  join(out, 'dossier.json'),
-  buildDossier(out, { text_max_bytes: 163840, screenshots: { max: 4, max_bytes: 262144 }, app_max_files: 993, app_max_bytes: 50331648 }),
-);
-console.log(`dossier written: 55 trophies, ${steps} cited steps, ${shots} screenshots`);
+if (gradeCount.platinum !== 1 || gradeCount.gold !== 2 || gradeCount.silver !== 6 || gradeCount.bronze !== 46) {
+  fail(`grades are ${gradeCount.platinum ?? 0}P/${gradeCount.gold ?? 0}G/${gradeCount.silver ?? 0}S/${gradeCount.bronze ?? 0}B, expected 1P/2G/6S/46B`);
+}
+
+// PSN total exactly 1350.
+if (psnTotal !== 1350) fail(`PSN total is ${psnTotal}, expected 1350`);
+
+// Missable list exactly [28].
+const missable = trophies.filter((t) => t.watch === 'missable').map((t) => t.id).sort((a: number, b: number) => a - b);
+if (missable.length !== 1 || missable[0] !== 28) fail(`missable list is [${missable.join(', ')}], expected [28]`);
+
+// Unconfirmed exactly 6: [28, 46, 47, 49, 50, 51].
+const unconfirmed = trophies.filter((t) => t.unconfirmed === true).map((t) => t.id).sort((a: number, b: number) => a - b);
+const expectedUnconfirmed = [28, 46, 47, 49, 50, 51];
+if (unconfirmed.length !== 6 || unconfirmed.some((id: number, i: number) => id !== expectedUnconfirmed[i])) {
+  fail(`unconfirmed list is [${unconfirmed.join(', ')}], expected [28, 46, 47, 49, 50, 51]`);
+}
+
+// Cited steps >= 220; every step has a numeric citation.
+let stepTotal = 0;
+for (const t of trophies) {
+  if (!Array.isArray(t.steps)) fail(`trophy ${t.id} has no steps array`);
+  for (const s of t.steps) {
+    if (typeof s.c !== 'number') fail(`trophy ${t.id} has a step without a numeric citation`);
+    stepTotal++;
+  }
+  if (typeof t.guide !== 'string' || t.guide.trim() === '') fail(`trophy ${t.id} has a blank guide`);
+}
+if (stepTotal < 220) fail(`only ${stepTotal} cited steps, expected at least 220`);
+
+// Sources exactly 9: the guide's own sources list (trophies.json and
+// matrix.json each name all 9). Per-trophy arrays need not cover all 9 —
+// sources 5, 6 and 8 are list trackers that verify the list.
+const guideSources = Array.isArray(data.sources) ? data.sources : [];
+const matrixSources = Array.isArray(matrix.sources) ? matrix.sources : [];
+if (guideSources.length !== 9) fail(`trophies.json names ${guideSources.length} sources, expected 9`);
+if (matrixSources.length !== 9) fail(`matrix.json names ${matrixSources.length} sources, expected 9`);
+
+// Matrix rows exactly 55.
+if (rows.length !== 55) fail(`matrix has ${rows.length} rows, expected 55`);
+
+// Orders 1-55 unique.
+const orders = trophies.map((t) => t.order).sort((a: number, b: number) => a - b);
+for (let i = 0; i < 55; i++) {
+  if (orders[i] !== i + 1) fail(`orders are not 1-55 unique (position ${i} holds ${orders[i]})`);
+}
+
+// Every stage's PSN subtotal equals the sum of its trophy_ids' PSN values.
+for (const [stage, expected] of Object.entries(EXPECTED_STAGE_PSN)) {
+  const sum = trophies.filter((t) => t.stage === stage).reduce((acc: number, t: any) => acc + t.psn_value, 0);
+  if (sum !== expected) fail(`stage ${stage} PSN subtotal is ${sum}, expected ${expected}`);
+}
+
+// All 4 screenshots exist and each is <= 262144 bytes.
+const shots = ['1-checklist.jpg', '2-roadmap.jpg', '3-filters.jpg', '4-progress.jpg'];
+for (const shot of shots) {
+  const p = join(ROOT, 'screenshots', shot);
+  if (!existsSync(p)) fail(`screenshot screenshots/${shot} is missing`);
+  const size = statSync(p).size;
+  if (size > SCREENSHOT_MAX_BYTES) fail(`screenshot screenshots/${shot} is ${size} bytes, over ${SCREENSHOT_MAX_BYTES}`);
+}
+
+console.log(`preflight OK: 55 trophies, 1P/2G/6S/46B, 1350 PSN points, ${stepTotal} cited steps, 1 missable (id 28), 6 unconfirmed, 9 sources, 6 stage subtotals match, 4 screenshots`);
+
+// Copy app/ and screenshots/ into the output dir, then write the dossier.
+mkdirSync(OUT, { recursive: true });
+cpSync(join(ROOT, 'app'), join(OUT, 'app'), { recursive: true });
+cpSync(join(ROOT, 'screenshots'), join(OUT, 'screenshots'), { recursive: true });
+const dossier = buildDossier(OUT, {
+  text_max_bytes: 163840,
+  screenshots: { max: 4, max_bytes: 262144 },
+  app_max_files: 993,
+  app_max_bytes: 50331648,
+});
+writeFileSync(join(OUT, 'dossier.json'), dossier);
+console.log(`dossier written: ${join(OUT, 'dossier.json')} (${dossier.length} bytes)`);

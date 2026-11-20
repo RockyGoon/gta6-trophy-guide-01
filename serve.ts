@@ -1,19 +1,11 @@
-// A tiny static server for app/ (Node 22, standard library only).
-// Serves the guide locally so it can be tried in a browser and screenshotted:
-//   node serve.ts            -> http://localhost:8080
-//   node serve.ts --port 8081
-// It sends the MIME types a browser needs and refuses any path outside app/.
-// This is a development convenience, not a web server for the internet.
-import { createReadStream, statSync } from 'node:fs';
+// serve.ts — tiny static server for app/ only (Leonida Platinum, v3).
+// Usage: node serve.ts [--port 8081]  — binds 127.0.0.1, serves app/ at root.
 import { createServer } from 'node:http';
-import { extname, join, normalize, resolve, sep } from 'node:path';
+import { readFileSync, statSync } from 'node:fs';
+import { join, resolve, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const appDir = resolve(fileURLToPath(new URL('./app', import.meta.url)));
-const argv = process.argv.slice(2);
-const portFlag = argv.indexOf('--port');
-const wanted = portFlag === -1 ? 8080 : Number(argv[portFlag + 1]);
-const port = Number.isInteger(wanted) && wanted > 0 && wanted < 65536 ? wanted : 8080;
+const APP_DIR = resolve(join(fileURLToPath(new URL('.', import.meta.url)), 'app'));
 
 const MIME: Record<string, string> = {
   '.html': 'text/html; charset=utf-8',
@@ -29,46 +21,61 @@ const MIME: Record<string, string> = {
   '.ico': 'image/x-icon',
 };
 
-function insideApp(pathname: string): string | null {
-  // Resolve the request against appDir in one step: joining an absolute
-  // pathname onto appDir would discard appDir, so strip the leading slash
-  // first and resolve the remainder under appDir.
-  const rel = normalize(pathname.replace(/^\/+/, ''));
-  const file = resolve(join(appDir, rel));
-  if (file !== appDir && !file.startsWith(appDir + sep)) return null;
-  return file;
+function portFromArgs(): number {
+  const args = process.argv.slice(2);
+  const at = args.indexOf('--port');
+  if (at >= 0 && args[at + 1]) {
+    const p = Number.parseInt(args[at + 1], 10);
+    if (Number.isInteger(p) && p > 0 && p < 65536) return p;
+  }
+  return 8080;
 }
 
-createServer((request, response) => {
-  const url = new URL(request.url ?? '/', 'http://localhost');
-  let pathname: string;
+const port = portFromArgs();
+
+const server = createServer((req, res) => {
+  const raw = req.url ?? '/';
+  const pathOnly = raw.split(/[?#]/)[0] ?? '/';
+  let decoded: string;
   try {
-    pathname = decodeURIComponent(url.pathname);
+    decoded = decodeURIComponent(pathOnly);
   } catch {
-    response.writeHead(400).end('bad request');
+    res.writeHead(400, { 'cache-control': 'no-store' });
+    res.end('bad request');
     return;
   }
-  if (pathname.endsWith('/')) pathname += 'index.html';
-  const file = insideApp(pathname);
-  if (file === null) {
-    response.writeHead(403).end('forbidden');
+  const rel = decoded === '/' ? 'index.html' : decoded.replace(/^\/+/, '');
+  const target = resolve(join(APP_DIR, rel));
+  if (target !== APP_DIR && !target.startsWith(APP_DIR + '/')) {
+    res.writeHead(403, { 'cache-control': 'no-store' });
+    res.end('forbidden');
     return;
   }
-  let size: number;
+  let st;
   try {
-    const stats = statSync(file);
-    if (!stats.isFile()) throw new Error('not a file');
-    size = stats.size;
+    st = statSync(target);
   } catch {
-    response.writeHead(404).end('not found');
+    res.writeHead(404, { 'cache-control': 'no-store' });
+    res.end('not found');
     return;
   }
-  response.writeHead(200, {
-    'content-type': MIME[extname(file).toLowerCase()] ?? 'application/octet-stream',
-    'content-length': size,
-    'cache-control': 'no-store',
-  });
-  createReadStream(file).pipe(response);
-}).listen(port, '127.0.0.1', () => {
-  console.log(`app/ is on http://localhost:${port}`);
+  if (!st.isFile()) {
+    res.writeHead(404, { 'cache-control': 'no-store' });
+    res.end('not found');
+    return;
+  }
+  const ext = extname(target).toLowerCase();
+  const type = MIME[ext];
+  if (!type) {
+    res.writeHead(403, { 'cache-control': 'no-store' });
+    res.end('forbidden');
+    return;
+  }
+  const body = readFileSync(target);
+  res.writeHead(200, { 'content-type': type, 'cache-control': 'no-store', 'content-length': body.length });
+  res.end(body);
+});
+
+server.listen(port, '127.0.0.1', () => {
+  console.log(`Leonida Platinum serving app/ at http://127.0.0.1:${port}/`);
 });
