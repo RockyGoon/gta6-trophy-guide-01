@@ -4,50 +4,44 @@
 [![rank](https://make.fun/badge/gta6-trophy-guide-01/RockyGoon/gta6-trophy-guide-01/rank.svg)](https://make.fun/bounty/gta6-trophy-guide-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
 [![reward](https://make.fun/badge/gta6-trophy-guide-01/RockyGoon/gta6-trophy-guide-01/reward.svg)](https://make.fun/bounty/gta6-trophy-guide-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
 
-**v3 — rebuild 20 Nov 2026.** The best GTA VI trophy guide: all 55 trophies with official names, descriptions and grades, 234 numbered cited steps, a 55×9 source matrix, 8 logged disputes, a 15-counter 100% ledger, a 6-stage roadmap to the platinum, and a tracker that saves progress in the browser. Offline, static files.
+**v4 — rebuild 20 Nov 2026.** The best GTA VI trophy guide: all 55 trophies with official names, descriptions and grades, 234 numbered cited steps, a 55×9 source matrix, 8 logged disputes, a 15-counter 100% ledger, a 7-stage roadmap to the platinum, and a tracker that saves progress in the browser. Offline, static files.
 
-Entry: bounty [gta6-trophy-guide-01](https://make.fun/bounty/gta6-trophy-guide-01) ($250, closes 21 Nov 2026 18:00 WIB, result 6 Dec 2026).
+Entry: [gta6-trophy-guide-01 on make.fun](https://make.fun/bounty/gta6-trophy-guide-01) ($250, closes 21 Nov 2026 18:00 WIB, result 6 Dec 2026).
 
 ## Before you start
 
 - Save plan: 15 manual save slots + 1 autosave. 10 slots for chapter start/end (5 chapters × 2), 1 untouched slot from just before the final mission, 4 rotating slots for free-roam cleanup.
-- Cheats off: cheats disable trophies and saving on this save.
-- The 1 missable trophy is id 28 Positive Mental Attitude — do the Chapter 1 balcony meditation with Lucia before Chapter 1 ends, and keep a Chapter 1 save until it pops.
-- No mission replay, no New Game+. What you miss in a chapter stays missed unless a save takes you back.
+- Cheats off: cheats disable trophies and saving, so never use them on this save.
+- The 1 missable trophy is id 28, Positive Mental Attitude: do the Chapter 1 balcony meditation with Lucia before Chapter 1 ends, and keep a Chapter 1 save until it pops.
+- No mission replay, no New Game+: once a chapter ends, its missions are gone for good on that save.
 
 ## What is in here
 
-- **Checklist** — every trophy as a card: grade, PSN value, stage and order, kind, missable/watch flag, target count, numbered steps each citing a source by number, an audit strip, and a save note; filters by kind, grade, stage, text search, spoiler hiding (17 story trophies) and unearned-only; export and import progress as JSON.
-- **Roadmap** — the 6 stages with trophy counts, PSN subtotals and hours: S1 Story spine (20, 375, 60–80 h), S2 Character strands (7, 120, ~10 h), S3 Activities & skill (10, 180, ~25 h), S4 Collectibles & exploration (7, 135, ~30 h), S5 Crime & money (9, 150, ~25 h), S6 Platinum cleanup (2, 390, 10–20 h); total 1,350 PSN, about 200 hours; each stage carries its chapter-save advice.
-- **Source matrix** — 55×9; every cell carries L; G marks a walkthrough; C marks that at least one numbered step cites that source; steps per source: PowerPyx 84, KeenGamer 63, Push Square 19, GTABase 29, OutputLag 17, GTA Scoop 22; Exophase, PSNProfiles and Insider Gaming are list trackers — they verify the list and carry 0 step citations.
-- **Disputes** — D1 time 200 vs 300 hours; D2 one missable vs a watch on Strangers & Freaks; D3 Personal Best; D4 Let's Go Bowling; D5 Ten Pin (open); D6 gang operations 1-per-gang vs 39; D7 meditation 18 vs 15; D8 challenges 50 vs 70 of 80; each ends in a verdict.
-- **100% ledger** — the 15 counters from the checklist: vehicles scanned, animals studied, weapons, stunts, challenges, card sets, bank vaults, bank jobs, payday jobs, gang operations, optional tasks, WAiNK locations, underwater discoveries, flamingos, shooting-range golds.
-- **Missable watch** — exactly 1 missable (id 28), 1 possible (id 25), 7 watch, 46 safe.
+- Checklist — every trophy as a card: grade, PSN value, stage and order, kind, missable/watch flag, target count, numbered steps each citing a source by number, an audit strip, and a save note. Filters by kind, grade, stage, text search, spoiler hiding (17 story trophies) and unearned-only; export and import progress as JSON. A Next Up panel suggests the next 3 trophies to chase, ranked missable first, then the stage you have most progress in, then fewest steps left. An audit strip at the top shows the real computed numbers: claims cited, steps backed by 2+ sources, sources, disputes, unconfirmed trophies, missable count, and last verified date.
+- Roadmap — the 7 stages with trophy counts, PSN subtotals and hours: S1a Story spine I (10, 225, part of 60–80 h), S1b Story spine II (10, 150, part of 60–80 h), S2 Character strands (7, 120, ~10 h), S3 Activities & skill (10, 180, ~25 h), S4 Collectibles & exploration (7, 135, ~30 h), S5 Crime & money (9, 150, ~25 h), S6 Platinum cleanup (2, 390, 10–20 h); total 1,350 PSN, about 200 hours; each stage carries its chapter-save advice. Stage subtotals are computed from the trophy data, never hand-typed.
+- Source matrix — 55×9; every cell carries L; G marks a walkthrough; C marks that at least one numbered step cites that source; steps per source: PowerPyx 84, KeenGamer 63, Push Square 19, GTABase 29, OutputLag 17, GTA Scoop 22; Exophase, PSNProfiles and Insider Gaming are list trackers — they verify the list and carry 0 step citations. A second citation (c2) backs 167 of the 234 steps where the matrix shows a second walkthrough source also covers that trophy's guide; sources 5 and 6 never back a step, because they verify the list only.
+- Disputes — D1 time 200 vs 300 hours; D2 one missable vs a watch on Strangers & Freaks; D3 Personal Best; D4 Let's Go Bowling; D5 Ten Pin (open); D6 gang operations 1-per-gang vs 39; D7 meditation 18 vs 15; D8 challenges 50 vs 70 of 80; each ends in a verdict. Every trophy a dispute touches also carries an inline SOURCES DIFFER panel on its card, showing both sides and the verdict.
+- 100% ledger — the 15 counters from the checklist, now interactive: each counter has − / + buttons, a progress bar, and its note and sources, saved in the browser under the v4 storage key.
+- Missable watch — exactly 1 missable (id 28), 1 possible (id 25), 7 watch, 46 safe.
 
 ## Facts the guide stands on
 
-- 55 trophies: 1 platinum, 2 gold, 6 silver, 46 bronze. PSN values: platinum 300, gold 90, silver 30, bronze 15. Total 1,350.
-- Difficulty 4/10, about 200 hours (PowerPyx, KeenGamer, GTABase). Push Square says 300 hours or more — see dispute D1.
+- 55 trophies 1/2/6/46; PSN 300/90/30/15, total 1,350; difficulty 4/10, about 200 hours (PowerPyx, KeenGamer, GTABase).
 - No online trophies, one playthrough, no mission replay, no New Game+, free roam after the story.
 - Cheats disable trophies and saving.
 - 15 manual save slots + 1 autosave with the 10/1/4 plan.
-- Hidden count logged not guessed: this guide's data list marks 25 hidden; public lists (GTABase, OutputLag, Insider Gaming) report 28 — the gap of 3 is not split, the audit strip says which count each story trophy follows, and spoiler hiding covers the 17 story trophies.
-- Unconfirmed logged not invented: 6 flagged (28, 46, 47, 49, 50, 51); five have a resolved safe play; Ten Pin (51) stays open — no published method, nothing invented.
+- Hidden count logged not guessed (25 marked vs 28 reported, gap of 3 not split, audit strip says which count each story trophy follows, spoiler hiding covers the 17 story trophies).
+- Unconfirmed logged not invented (6 flagged: 28, 46, 47, 49, 50, 51; five have a resolved safe play; Ten Pin (51) stays open — no published method, nothing invented.)
 
 ## How to use this guide
 
-1. Start with Before you start — set up the save plan and do the Chapter 1 balcony meditation on time.
-2. Follow the roadmap stages in order.
-3. Use the checklist filters and the missable banner; tick trophies off as they pop.
-4. Check a trophy's audit strip when sources disagree.
-5. Use the matrix to see which source backs each step.
-6. Export your progress regularly.
+Start with Before you start; follow the roadmap stages in order; use the checklist filters and the missable banner; check a trophy's audit strip when sources disagree; use the matrix to see which source backs each step; export your progress regularly.
 
 ## Changelog
 
-- **v1 (19 Nov 2026)** — first guide: all 55 trophies, own-words guides, per-trophy citations, roadmap, tracker.
-- **v2 (20 Nov 2026)** — audit pass: every trophy re-checked against the 9 sources; 234 numbered cited steps (was 0); source matrix 55×9; 8 disputes with verdicts; 15-counter 100% ledger; 6-stage roadmap with PSN subtotals and chapter-save plan; hidden-count discrepancy logged, not guessed.
-- **v3 (20 Nov 2026)** — full rebuild from the audit spec: same 234 cited steps, matrix, disputes and ledger, re-verified end to end; new Before-you-start and How-to-use sections; tracker storage key v3.
+- v1 (19 Nov 2026) — first guide: all 55 trophies, own-words guides, per-trophy citations, roadmap, tracker.
+- v2 (20 Nov 2026) — audit pass: every trophy re-checked against the 9 sources; 234 numbered cited steps (was 0); source matrix 55×9; 8 disputes with verdicts; 15-counter 100% ledger; 6-stage roadmap with PSN subtotals and chapter-save plan; hidden-count discrepancy logged, not guessed.
+- v4 (20 Nov 2026) — full rebuild: 7-stage roadmap, audit strip, 2+ source backing, inline SOURCES DIFFER panels, interactive count trackers, Next Up planner, dated sources.
 
 ## Sources (read 20 Nov 2026)
 
