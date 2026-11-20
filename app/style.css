@@ -55,6 +55,34 @@ body {
 .bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--coral)); transition: width 0.3s; }
 .grade-counts { margin: 8px 0 2px; font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: var(--muted); }
 .platinum-note { margin: 0; font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: var(--muted); }
+.psn-points { margin: 6px 0 2px; font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; color: var(--coral-dark); }
+.platinum-progress { margin: 0 0 6px; font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: var(--muted); }
+.audit-strip { background: #122b29; color: #d9f2ec; padding: 12px 28px 14px; border-bottom: 3px solid var(--teal); font-family: Arial, Helvetica, sans-serif; }
+.audit-title { margin: 0 0 4px; font-size: 13px; font-weight: bold; letter-spacing: 1.5px; color: #7fe0cd; }
+.audit-line { margin: 0; font-size: 13px; line-height: 1.55; max-width: 1100px; }
+.audit-line strong { color: #fff; }
+.watch-banner { border: 2px solid #d43d17; border-radius: var(--radius); background: #fff5f1; padding: 12px 16px; margin-bottom: 14px; }
+.watch-title { margin: 0 0 4px; font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; letter-spacing: 1px; color: #a11d00; }
+.watch-text { margin: 0; font-size: 14px; }
+.watch-text a { color: var(--coral-dark); font-weight: bold; }
+.watch-status-line { font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #a11d00; background: #fff5f1; border: 1px solid #f0a58c; border-radius: 8px; padding: 10px 14px; max-width: 860px; }
+.stage-strip { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.stage-chip {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--coral-dark);
+  background: #fdf6ee;
+  color: var(--coral-dark);
+  cursor: pointer;
+}
+.stage-chip small { font-weight: normal; color: var(--muted); }
+.stage-chip.done-stage { background: #e6f4f1; border-color: var(--teal); color: var(--teal); }
+.stage-count { font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: var(--teal); margin-left: 8px; }
+.cite-line { display: block; font-family: Arial, Helvetica, sans-serif; font-size: 11px; color: var(--coral-dark); margin-top: 4px; }
+.points-tag { font-weight: bold; color: var(--ink); }
 .tabs { display: flex; gap: 8px; padding: 12px 28px 0; background: var(--night); }
 .tab {
   font-family: Arial, Helvetica, sans-serif;

@@ -38,6 +38,16 @@ const ROADMAP_STAGES = [
   { title: 'Stage 6 — The last gold, then the platinum', ids: [14, 44, 45, 47, 48, 49, 50, 1], text: 'Check the in-game 100% checklist (Progress, Stats, 100% Completion) and close out whatever it still lists — that earns A Long Road, the gold for 100% completion. The vague story-moment trophies should have popped during the story; if one has not, check its guide for the confirmed trigger. When the last trophy pops, Vice Got a Price! — the platinum — follows at once.' },
 ];
 
+// PSN points per grade (PlayStation's own values): platinum 300, gold 90,
+// silver 30, bronze 15. All 55 trophies are worth 1,350 points in total;
+// the platinum itself pops only after the other 54 are earned.
+const POINTS = { platinum: 300, gold: 90, silver: 30, bronze: 15 };
+const TOTAL_POINTS = 1350;
+function pointsFor(t) { return POINTS[t.grade] ?? 0; }
+function shortSourceNames(t) {
+  return (t.sources ?? []).map((s) => s.name.split(' — ')[0]).join(' · ');
+}
+
 function loadEarned() {
   try {
     const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]');
@@ -139,7 +149,14 @@ function renderList() {
     kind.className = 'kind';
     kind.textContent = t.kind;
     meta.append(kind);
-    body.append(name, desc, meta);
+    const points = document.createElement('span');
+    points.className = 'points-tag';
+    points.textContent = `${pointsFor(t)} pts`;
+    meta.append(points);
+    const cite = document.createElement('span');
+    cite.className = 'cite-line';
+    cite.textContent = `Cited: ${shortSourceNames(t)}`;
+    body.append(name, desc, meta, cite);
     li.append(box, body);
     listEl.append(li);
   }
@@ -158,6 +175,10 @@ function renderProgress() {
   document.getElementById('gradeCounts').textContent = grades
     .map((g) => `${trophies.filter((t) => t.grade === g && earned.has(t.name)).length}/${trophies.filter((t) => t.grade === g).length} ${g}`)
     .join(' · ');
+  const earnedPoints = trophies.filter((t) => earned.has(t.name)).reduce((sum, t) => sum + pointsFor(t), 0);
+  document.getElementById('psnPoints').textContent = `PSN points: ${earnedPoints.toLocaleString('en-US')} / ${TOTAL_POINTS.toLocaleString('en-US')} · Platinum 300 · Gold 90 · Silver 30 · Bronze 15`;
+  const towardPlatinum = trophies.filter((t) => t.grade !== 'platinum' && earned.has(t.name)).length;
+  document.getElementById('platinumProgress').textContent = `Platinum progress: ${towardPlatinum} / 54 trophies toward Vice Got a Price!${towardPlatinum === 54 ? ' — platinum earned!' : ''}`;
 }
 
 function renderDetail() {
@@ -186,6 +207,10 @@ function renderDetail() {
     stage.textContent = t.roadmap;
     pills.append(stage);
   }
+  const points = document.createElement('span');
+  points.className = 'roadmap-tag';
+  points.textContent = `${pointsFor(t)} PSN points (${t.grade})`;
+  pills.append(points);
   const guide = document.createElement('p');
   guide.className = 'guide-text';
   guide.textContent = isHidden(t) ? 'Turn spoilers off, or earn this trophy, to read its guide.' : t.guide;
@@ -228,6 +253,12 @@ function renderRoadmap() {
     li.className = 'stage';
     const title = document.createElement('h3');
     title.textContent = stage.title;
+    const earnedInStage = stage.ids.filter((id) => byId.has(id) && earned.has(byId.get(id).name)).length;
+    const stagePoints = stage.ids.filter((id) => byId.has(id) && earned.has(byId.get(id).name)).reduce((sum, id) => sum + pointsFor(byId.get(id)), 0);
+    const counter = document.createElement('span');
+    counter.className = 'stage-count';
+    counter.textContent = `${earnedInStage}/${stage.ids.length} earned · ${stagePoints} pts`;
+    title.append(counter);
     const text = document.createElement('p');
     text.textContent = stage.text;
     const chips = document.createElement('p');
@@ -254,10 +285,45 @@ function showView(view) {
   }
 }
 
+function renderStageStrip() {
+  const strip = document.getElementById('stageStrip');
+  strip.replaceChildren();
+  ROADMAP_STAGES.forEach((stage, i) => {
+    const earnedInStage = stage.ids.filter((id) => byId.has(id) && earned.has(byId.get(id).name)).length;
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'stage-chip' + (earnedInStage === stage.ids.length ? ' done-stage' : '');
+    chip.textContent = `Stage ${i + 1}: ${earnedInStage}/${stage.ids.length} `;
+    const small = document.createElement('small');
+    small.textContent = stage.title.split('—')[1]?.trim() ?? '';
+    chip.append(small);
+    chip.addEventListener('click', () => showView('roadmap'));
+    strip.append(chip);
+  });
+  const total = document.createElement('span');
+  total.className = 'stage-count';
+  total.textContent = `${earned.size}/55 earned overall`;
+  strip.append(total);
+}
+
+function renderWatch() {
+  const missable = byId.get(28);
+  const safe = missable && earned.has(missable.name);
+  document.getElementById('watchStatus').textContent = safe
+    ? 'Status: ✓ earned — the missable trophy is safe, the platinum can no longer be missed.'
+    : 'Status: not yet earned — do it before you leave Chapter 1.';
+  document.getElementById('watchStatusLine').textContent = safe
+    ? 'MISSABLE WATCH: ✓ all clear — Positive Mental Attitude is earned, nothing in the game can be missed now.'
+    : 'MISSABLE WATCH: 1 of 1 missable trophies still at risk — Positive Mental Attitude, Chapter 1 only.';
+}
+
 function renderAll() {
   renderProgress();
   renderList();
   renderDetail();
+  renderStageStrip();
+  renderWatch();
+  renderRoadmap();
 }
 
 function download(filename, text) {
