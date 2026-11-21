@@ -1,1 +1,1027 @@
-{"agreement":"List fields agree 55/55 across all 9 sources. Step citations are uneven by design: Exophase [5], PSNProfiles [6] and Insider Gaming [8] are list trackers, so they verify the list and carry 0 step citations, while the walkthrough sources carry the steps.","legend":"L = source publishes the trophy's name, description and grade. G = source also carries a walkthrough. C = at least one numbered step for this trophy cites that source. Every cell carries L: all 9 sources publish all 55 trophies, and Exophase [5] and PSNProfiles [6] agree with each other on every name, description and grade.","meta":{"sources":["1 PowerPyx","2 KeenGamer","3 Push Square","4 GTABase","5 Exophase","6 PSNProfiles","7 OutputLag","8 Insider Gaming","9 GTA Scoop"],"steps_per_source":{"1":84,"2":63,"3":19,"4":29,"5":0,"6":0,"7":17,"8":0,"9":22},"title":"Source matrix 55 x 9"},"rows":[{"cells":["LGC","LGC","LG","LGC","L","L","LG","L","LG"],"dispute":"D1","id":1},{"cells":["LGC","LGC","LG","LG","L","L","LG","L","LGC"],"dispute":null,"id":2},{"cells":["LGC","LGC","LG","LGC","L","L","LGC","L","LG"],"dispute":null,"id":3},{"cells":["LGC","LGC","LG","LGC","L","L","LGC","L","LG"],"dispute":null,"id":4},{"cells":["LGC","LGC","LG","LGC","L","L","LGC","L","LG"],"dispute":null,"id":5},{"cells":["LGC","LGC","LG","LG","L","L","LG","L","LG"],"dispute":null,"id":6},{"cells":["LGC","LGC","LGC","LGC","L","L","LG","L","LG"],"dispute":null,"id":7},{"cells":["LGC","LG","LG","LGC","L","L","LGC","L","LGC"],"dispute":null,"id":8},{"cells":["LGC","LGC","LG","LGC","L","L","LG","L","LGC"],"dispute":null,"id":9},{"cells":["LGC","LGC","LG","LGC","L","L","LG","L","LGC"],"dispute":null,"id":10},{"cells":["LGC","LG","LG","LGC","L","L","LG","L","LGC"],"dispute":null,"id":11},{"cells":["LGC","LGC","LG","LGC","L","L","LG","L","LGC"],"dispute":null,"id":12},{"cells":["LGC","LG","LG","LGC","L","L","LG","L","LGC"],"dispute":null,"id":13},{"cells":["LGC","LGC","LGC","LGC","L","L","LG","L","LG"],"dispute":"D1","id":14},{"cells":["LGC","LGC","LGC","LG","L","L","LG","L","LG"],"dispute":null,"id":15},{"cells":["LGC","LGC","LGC","LG","L","L","LG","L","LG"],"dispute":null,"id":16},{"cells":["LGC","LGC","LGC","LG","L","L","LG","L","LG"],"dispute":null,"id":17},{"cells":["LGC","LGC","LGC","LGC","L","L","LG","L","LG"],"dispute":null,"id":18},{"cells":["LGC","LGC","LGC","LGC","L","L","LG","L","LG"],"dispute":null,"id":19},{"cells":["LGC","LGC","LG","LG","L","L","LG","L","LGC"],"dispute":null,"id":20},{"cells":["LGC","LGC","LG","LG","L","L","LG","L","LG"],"dispute":null,"id":21},{"cells":["LG","LGC","LG","LGC","L","L","LGC","L","LG"],"dispute":null,"id":22},{"cells":["LG","LGC","LG","LGC","L","L","LGC","L","LG"],"dispute":null,"id":23},{"cells":["LG","LGC","LG","LGC","L","L","LGC","L","LG"],"dispute":null,"id":24},{"cells":["LGC","LGC","LG","LGC","L","L","LGC","L","LG"],"dispute":"D2","id":25},{"cells":["LG","LGC","LG","LGC","L","L","LGC","L","LG"],"dispute":null,"id":26},{"cells":["LG","LGC","LG","LGC","L","L","LGC","L","LG"],"dispute":null,"id":27},{"cells":["LGC","LGC","LG","LG","L","L","LGC","L","LGC"],"dispute":"D2/D7","id":28},{"cells":["LGC","LGC","LG","LGC","L","L","LG","L","LG"],"dispute":null,"id":29},{"cells":["LGC","LGC","LGC","LGC","L","L","LG","L","LG"],"dispute":null,"id":30},{"cells":["LGC","LGC","LGC","LGC","L","L","LG","L","LG"],"dispute":null,"id":31},{"cells":["LGC","LGC","LGC","LGC","L","L","LG","L","LG"],"dispute":"D8","id":32},{"cells":["LGC","LGC","LG","LG","L","L","LGC","L","LG"],"dispute":null,"id":33},{"cells":["LGC","LGC","LG","LGC","L","L","LG","L","LG"],"dispute":null,"id":34},{"cells":["LGC","LGC","LGC","LG","L","L","LG","L","LG"],"dispute":null,"id":35},{"cells":["LGC","LGC","LG","LG","L","L","LG","L","LG"],"dispute":null,"id":36},{"cells":["LGC","LGC","LG","LGC","L","L","LG","L","LG"],"dispute":null,"id":37},{"cells":["LGC","LGC","LG","LG","L","L","LG","L","LG"],"dispute":null,"id":38},{"cells":["LGC","LGC","LG","LG","L","L","LG","L","LG"],"dispute":null,"id":39},{"cells":["LGC","LGC","LGC","LGC","L","L","LG","L","LG"],"dispute":null,"id":40},{"cells":["LGC","LGC","LG","LGC","L","L","LG","L","LG"],"dispute":null,"id":41},{"cells":["LGC","LGC","LGC","LG","L","L","LG","L","LG"],"dispute":null,"id":42},{"cells":["LGC","LGC","LGC","LGC","L","L","LG","L","LG"],"dispute":"D6","id":43},{"cells":["LGC","LGC","LG","LG","L","L","LG","L","LGC"],"dispute":null,"id":44},{"cells":["LGC","LGC","LG","LG","L","L","LG","L","LG"],"dispute":null,"id":45},{"cells":["LGC","LGC","LG","LG","L","L","LG","L","LGC"],"dispute":"D4","id":46},{"cells":["LG","LGC","LG","LG","L","L","LG","L","LGC"],"dispute":"D3","id":47},{"cells":["LGC","LGC","LG","LG","L","L","LG","L","LGC"],"dispute":null,"id":48},{"cells":["LGC","LGC","LG","LG","L","L","LG","L","LGC"],"dispute":null,"id":49},{"cells":["LGC","LGC","LG","LG","L","L","LG","L","LGC"],"dispute":null,"id":50},{"cells":["LG","LGC","LG","LG","L","L","LG","L","LGC"],"dispute":"D5","id":51},{"cells":["LGC","LGC","LGC","LG","L","L","LG","L","LG"],"dispute":null,"id":52},{"cells":["LGC","LGC","LGC","LG","L","L","LG","L","LG"],"dispute":null,"id":53},{"cells":["LGC","LGC","LGC","LG","L","L","LG","L","LG"],"dispute":null,"id":54},{"cells":["LGC","LGC","LG","LG","L","L","LG","L","LG"],"dispute":null,"id":55}]}
+{
+  "meta": {
+    "title": "Source matrix 55 x 12",
+    "sources": [
+      "1 PowerPyx",
+      "2 KeenGamer",
+      "3 Push Square",
+      "4 GTABase",
+      "5 Exophase",
+      "6 PSNProfiles",
+      "7 OutputLag",
+      "8 Insider Gaming",
+      "9 GTA Scoop",
+      "10 GameMapa",
+      "11 eGamers",
+      "12 GTA Vice City Hub"
+    ],
+    "steps_per_source": {
+      "1": 83,
+      "2": 62,
+      "3": 19,
+      "4": 29,
+      "5": 0,
+      "6": 0,
+      "7": 17,
+      "8": 0,
+      "9": 22,
+      "10": 21,
+      "11": 14,
+      "12": 5
+    },
+    "agreement": "List fields (name, description, grade) agree 55/55 across all 12 sources. Step citations are uneven by design \u2014 [5] Exophase, [6] PSNProfiles and [8] Insider Gaming are list trackers, so they verify the list and carry 0 step citations, while the walkthrough sources carry the steps. [11] eGamers reports 27 visible / 28 hidden, agreeing with the 28-hidden count.",
+    "legend": "L = source publishes the trophy's name, description and grade. G = source also carries a walkthrough. C = at least one numbered step for this trophy cites that source. Every cell carries L: all 12 sources publish all 55 trophies, and Exophase [5] and PSNProfiles [6] agree with each other on every name, description and grade."
+  },
+  "rows": [
+    {
+      "id": 1,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": "D1/D9"
+    },
+    {
+      "id": 2,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LGC",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 3,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LGC",
+        "L",
+        "LG",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 4,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LGC",
+        "L",
+        "LG",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 5,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LGC",
+        "L",
+        "LG",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 6,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 7,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LGC",
+        "LGC",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 8,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LGC",
+        "L",
+        "LGC",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 9,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LGC",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 10,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LGC",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 11,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LGC",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 12,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LGC",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 13,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LGC",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 14,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LGC",
+        "LGC",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LG",
+        "LG",
+        "LGC"
+      ],
+      "dispute": "D1/D9"
+    },
+    {
+      "id": 15,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LGC",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LG",
+        "LGC",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 16,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LGC",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LGC",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 17,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LGC",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 18,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LGC",
+        "LGC",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LG",
+        "LGC",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 19,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LGC",
+        "LGC",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LG",
+        "LGC",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 20,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 21,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LGC",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 22,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LGC",
+        "L",
+        "LG",
+        "LGC",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 23,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LGC",
+        "L",
+        "LG",
+        "LGC",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 24,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LGC",
+        "L",
+        "LG",
+        "LGC",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 25,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LGC",
+        "L",
+        "LG",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": "D2"
+    },
+    {
+      "id": 26,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LGC",
+        "L",
+        "LG",
+        "LGC",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 27,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LGC",
+        "L",
+        "LG",
+        "LGC",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 28,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LG",
+        "L",
+        "L",
+        "LGC",
+        "L",
+        "LGC",
+        "LGC",
+        "LG",
+        "LG"
+      ],
+      "dispute": "D2/D7"
+    },
+    {
+      "id": 29,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LGC",
+        "LGC",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 30,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LGC",
+        "LGC",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LG",
+        "LGC",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 31,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LGC",
+        "LGC",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 32,
+      "cells": [
+        "LGC",
+        "LG",
+        "LGC",
+        "LGC",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LG",
+        "LGC",
+        "LG"
+      ],
+      "dispute": "D8"
+    },
+    {
+      "id": 33,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LG",
+        "L",
+        "L",
+        "LGC",
+        "L",
+        "LG",
+        "LGC",
+        "LGC",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 34,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LGC",
+        "LGC",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 35,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LGC",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LG",
+        "LGC",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 36,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LGC",
+        "LGC",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 37,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LGC",
+        "LGC",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 38,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LGC",
+        "LGC",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 39,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LGC",
+        "LGC",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 40,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LGC",
+        "LGC",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LG",
+        "LGC",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 41,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 42,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LGC",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LG",
+        "LGC",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 43,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LGC",
+        "LGC",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": "D6"
+    },
+    {
+      "id": 44,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LGC",
+        "LGC",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 45,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LGC",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 46,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LGC",
+        "LG",
+        "LG",
+        "LGC"
+      ],
+      "dispute": "D4"
+    },
+    {
+      "id": 47,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC"
+      ],
+      "dispute": "D3"
+    },
+    {
+      "id": 48,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LGC",
+        "LG",
+        "LGC",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 49,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LGC",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 50,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LGC",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 51,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LGC",
+        "LGC",
+        "LG",
+        "LGC"
+      ],
+      "dispute": "D5"
+    },
+    {
+      "id": 52,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LGC",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 53,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LGC",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 54,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LGC",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LGC",
+        "LGC",
+        "LG"
+      ],
+      "dispute": null
+    },
+    {
+      "id": 55,
+      "cells": [
+        "LGC",
+        "LGC",
+        "LG",
+        "LG",
+        "L",
+        "L",
+        "LG",
+        "L",
+        "LG",
+        "LG",
+        "LG",
+        "LG"
+      ],
+      "dispute": null
+    }
+  ]
+}
