@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -7,114 +7,68 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
+<header class="masthead">
+  <p class="kicker">GRAND THEFT AUTO VI &middot; PLAYSTATION 5</p>
   <h1>LEONIDA PLATINUM</h1>
-  <p class="subtitle">GTA VI trophy guide &amp; tracker — all 55 trophies, 234 cited steps, 1,350 PSN points</p>
-  <p class="version">v4 — rebuild 20 Nov 2026 · sources read 20 Nov 2026 · <a href="#disagreements" data-view-link="disagreements">8 disputes logged</a></p>
+  <p class="subtitle" id="subtitle">GTA VI trophy guide &amp; tracker</p>
+  <p class="versionline">v5 &mdash; rebuild 21 Nov 2026 &middot; sources read 21 Nov 2026 &middot; <a href="#view-disputes" data-goto="disputes">9 disputes logged</a></p>
+  <div class="audit" id="audit-strip" aria-label="Audit strip"></div>
+  <div class="progress" id="progress-card">
+    <div class="progress-numbers"><span id="prog-count">0 / 55</span><span id="prog-psn">0 / 1,350 PSN</span></div>
+    <div class="bar"><div class="bar-fill" id="prog-bar" style="width:0%"></div></div>
+    <div class="grade-counts" id="grade-counts">P 0/1 &middot; G 0/2 &middot; S 0/6 &middot; B 0/46</div>
+  </div>
+  <div class="missable-banner" id="missable-banner">
+    <strong>MISSABLE WATCH &mdash; 1 missable, 1 possible, 7 watch, 46 safe.</strong>
+    <span>Id 28 Positive Mental Attitude: do the Chapter 1 balcony meditation before Chapter 1 ends and keep a Chapter 1 save until it pops &mdash; there is no mission replay.</span>
+    <span>Id 25 Strangers &amp; Freaks is a possible missable: stranger chains have windows linked to story progress, so take each strand as it appears.</span>
+  </div>
+  <div class="cover-line" id="cover-line">9 disputes &middot; 12 sources &middot; 7-stage roadmap</div>
 </header>
-
-<section id="audit-strip" class="audit-strip" aria-label="Audit strip"></section>
-
-<section class="progress-card" id="progress-card">
-  <div class="progress-count"><span id="progress-count">0 / 55</span> trophies</div>
-  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-  <div class="progress-meta"><span id="progress-psn">0 / 1,350 PSN</span><span id="progress-grades">P 0/1 · G 0/2 · S 0/6 · B 0/46</span></div>
-</section>
-
-<section class="missable-banner">
-  <strong>MISSABLE WATCH — 1 missable, 1 possible, 7 watch, 46 safe.</strong>
-  <p><strong>Id 28 Positive Mental Attitude</strong> is the one missable trophy: do the Chapter 1 balcony meditation with Lucia before Chapter 1 ends, and keep a Chapter 1 save until it pops — there is no mission replay.</p>
-  <p><strong>Id 25 Strangers &amp; Freaks</strong> is a watch, not a second missable: stranger mission chains have windows linked to story progress, so take each strand as it appears.</p>
-</section>
-
-<nav class="tabs" id="tabs">
+<nav class="tabs" id="tabs" aria-label="Views">
   <button data-view="checklist" class="active">Checklist</button>
   <button data-view="roadmap">Roadmap</button>
   <button data-view="matrix">Source Matrix</button>
-  <button data-view="disagreements">Disagreements</button>
+  <button data-view="disputes">Disputes</button>
+  <button data-view="ledger">100% Ledger</button>
   <button data-view="counts">Counts</button>
-  <button data-view="missables">Missables</button>
   <button data-view="sources">Sources</button>
+  <button data-view="missables">Missables</button>
 </nav>
-
 <main>
   <section id="view-checklist" class="view active">
-    <div id="next-up" class="next-up"></div>
-    <div class="filters">
-      <input type="search" id="search" placeholder="Search trophy name or description…" aria-label="Search trophies">
-      <select id="filter-kind" aria-label="Filter by kind">
-        <option value="">All kinds</option>
-        <option value="story">Story</option>
-        <option value="strand">Strand</option>
-        <option value="activity">Activity</option>
-        <option value="collectible">Collectible</option>
-        <option value="crime">Crime</option>
-        <option value="cleanup">Cleanup</option>
+    <div class="controls">
+      <input type="search" id="q" placeholder="Search trophy name or word&hellip;" aria-label="Search trophies">
+      <select id="f-kind" aria-label="Kind filter">
+        <option value="">All kinds</option><option>story</option><option>strand</option><option>activity</option><option>collectible</option><option>crime</option><option>cleanup</option>
       </select>
-      <select id="filter-grade" aria-label="Filter by grade">
-        <option value="">All grades</option>
-        <option value="platinum">Platinum</option>
-        <option value="gold">Gold</option>
-        <option value="silver">Silver</option>
-        <option value="bronze">Bronze</option>
+      <select id="f-grade" aria-label="Grade filter">
+        <option value="">All grades</option><option>platinum</option><option>gold</option><option>silver</option><option>bronze</option>
       </select>
-      <select id="filter-stage" aria-label="Filter by stage">
-        <option value="">All stages</option>
-        <option value="S1a">S1a Story spine I</option>
-        <option value="S1b">S1b Story spine II</option>
-        <option value="S2">S2 Character strands</option>
-        <option value="S3">S3 Activities &amp; skill</option>
-        <option value="S4">S4 Collectibles &amp; exploration</option>
-        <option value="S5">S5 Crime &amp; money</option>
-        <option value="S6">S6 Platinum cleanup</option>
+      <select id="f-stage" aria-label="Stage filter">
+        <option value="">All stages</option><option value="S1a">S1a Story spine I</option><option value="S1b">S1b Story spine II</option><option value="S2">S2 Character strands</option><option value="S3">S3 Activities &amp; skill</option><option value="S4">S4 Collectibles &amp; exploration</option><option value="S5">S5 Crime &amp; money</option><option value="S6">S6 Platinum cleanup</option>
       </select>
-      <label class="check"><input type="checkbox" id="hide-spoilers"> Hide story spoilers (17)</label>
-      <label class="check"><input type="checkbox" id="unearned-only"> Unearned only</label>
+      <label class="check"><input type="checkbox" id="f-spoiler"> Hide story spoilers (17)</label>
+      <label class="check"><input type="checkbox" id="f-unearned"> Unearned only</label>
       <button id="export-btn" type="button">Export progress</button>
-      <label class="import-label">Import progress <input type="file" id="import-file" accept=".json,application/json"></label>
+      <label class="import-btn">Import progress <input type="file" id="import-file" accept=".json,application/json" hidden></label>
     </div>
-    <p id="showing" class="showing">Showing 55 of 55 trophies.</p>
-    <div id="trophy-list"></div>
+    <p class="showing" id="showing"></p>
+    <div class="nextup" id="nextup"></div>
+    <div id="cards"></div>
   </section>
-
-  <section id="view-roadmap" class="view">
-    <p class="note">Seven stages, 55 trophies, 1,350 PSN, about 200 hours. Stage hours overlap — collectibles done during the story count twice — so the stages add to less than the 200-hour total. Save plan: 15 manual slots + 1 autosave; 10 slots for chapter start/end, 1 untouched slot before the final mission, 4 rotating cleanup slots.</p>
-    <div id="roadmap-list"></div>
-  </section>
-
-  <section id="view-matrix" class="view">
-    <p class="note" id="matrix-note"></p>
-    <div class="table-wrap"><table id="matrix-table"></table></div>
-    <p class="note" id="matrix-legend"></p>
-  </section>
-
-  <section id="view-disagreements" class="view">
-    <p class="note">Eight places where the sources disagree or stay silent. Each one ends in a verdict — and where the verdict is “not invented”, the guide says so on the trophy itself.</p>
-    <div id="dispute-list"></div>
-  </section>
-
-  <section id="view-counts" class="view">
-    <p class="note">The 100% Completion Checklist in 15 counters. The trophy needs 50 challenges and 3 card sets; the checklist needs 70 of 80 challenges and 15 of 18 sets. The checklist is closer to 60% true completion — not everything is required.</p>
-    <p class="note" id="counts-summary"></p>
-    <div id="counts-list"></div>
-  </section>
-
-  <section id="view-missables" class="view">
-    <p class="note">Three tiers, nothing more: exactly 1 missable, 1 watch, and 6 unconfirmed trophies. Everything else is safe.</p>
-    <div id="missables-list"></div>
-  </section>
-
-  <section id="view-sources" class="view">
-    <p class="note">9 sources, read 20 Nov 2026.</p>
-    <div id="sources-list"></div>
-  </section>
+  <section id="view-roadmap" class="view"><div id="roadmap"></div></section>
+  <section id="view-matrix" class="view"><div id="matrix"></div></section>
+  <section id="view-disputes" class="view"><div id="disputes"></div></section>
+  <section id="view-ledger" class="view"><div id="ledger"></div></section>
+  <section id="view-counts" class="view"><div id="counts"></div></section>
+  <section id="view-sources" class="view"><div id="sources"></div></section>
+  <section id="view-missables" class="view"><div id="missables"></div></section>
 </main>
-
 <footer>
-  <p>Leonida Platinum — v4 rebuild 20 Nov 2026. Official trophy names and descriptions are shown as PlayStation publishes them; every guide step is written in our own words and cites its source by number. Sources [5] Exophase and [6] PSNProfiles are cited by name without a URL — no direct URL was captured on 20 Nov 2026, and none is guessed. Hidden count: this guide's data list marks 25 hidden; public lists (GTABase, OutputLag, Insider Gaming) report 28 — the gap of 3 is logged, not guessed.</p>
+  <p>Leonida Platinum &mdash; v5 rebuild 21 Nov 2026. Official trophy names and descriptions are shown as PlayStation publishes them; every guide step is written in our own words and cites its source by number. Sources [5] Exophase and [6] PSNProfiles are cited by name without a URL &mdash; no direct URL was captured on 21 Nov 2026, and none is guessed. Hidden count: this guide&rsquo;s data list marks 25 hidden; public lists (GTABase, OutputLag, Insider Gaming, eGamers) report 28 &mdash; the gap of 3 is logged, not guessed.</p>
   <p>Built for the make.fun bounty gta6-trophy-guide-01. No Rockstar logo or artwork is used.</p>
 </footer>
-
 <script type="module" src="app.js"></script>
 </body>
 </html>
