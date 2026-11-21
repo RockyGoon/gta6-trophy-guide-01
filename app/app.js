@@ -1,331 +1,336 @@
-// Leonida Platinum — v5 rebuild 21 Nov 2026. GTA VI trophy guide & tracker.
-// All numbers on screen are computed from app/data/trophies.json and
-// app/data/matrix.json at load time; nothing is hardcoded.
-const KEY = 'leonida-platinum-v5';
-const STORY_IDS = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 22, 23, 24, 26, 27];
-
-const SOURCES = [
-  { n: 1, name: 'PowerPyx', url: 'https://www.powerpyx.com/gta-6-grand-theft-auto-vi-trophy-guide-roadmap/', covers: 'Roadmap (story 60-80 h, 100% ~100 h, cleanup ~10 h); difficulty 4/10; ~200 h; 1 missable (Ch.1 balcony meditation); 200/277 vehicles, 100/255 animals, 50/66 weapons; 70/80 challenges; 15 manual saves; 100% is ~60% true completion.' },
-  { n: 2, name: 'KeenGamer', url: 'https://www.keengamer.com/articles/guides/gta-6-trophy-guide-platinum-roadmap-all-55-trophies/', covers: 'Roadmap (~200 h, 4/10); balcony meditation after Down to Earth; 39 gang ops, 22 bank jobs, 7 payday jobs, 8 vaults; 100 optional tasks; 15 card sets, 100 WAiNK, 33 underwater, 100 flamingos; 42 shooting-range golds.' },
-  { n: 3, name: 'Push Square', url: 'https://www.pushsquare.com/guides/gta-6-trophy-guide-and-roadmap', covers: '300 hours or more; 18 card sets (15 for 100%); 397 stunts in the game; 100% checklist under Progress after the story (Touch Pad > Progress).' },
-  { n: 4, name: 'GTABase', url: 'https://www.gtabase.com/articles/gta-6/gta-6-achievements-trophies-list-ps5-xbox-series', covers: 'Full list of all 55 with grades and hidden flags (28 hidden); roadmap (~200 h); 5 chapters; no mission replay; cheats disable trophies and saving; 70/80 challenges.' },
-  { n: 5, name: 'Exophase', url: null, covers: 'Trophy list host; used for list verification (name, description, grade). Cited by name only — no URL was captured on 21 Nov 2026, none is guessed.' },
-  { n: 6, name: 'PSNProfiles', url: null, covers: 'Trophy tracker; used for list verification. Cited by name only — no URL was captured on 21 Nov 2026, none is guessed.' },
-  { n: 7, name: 'OutputLag', url: 'https://outputlag.com/guides/gta-6-trophy-list/', covers: 'Full list; 28 hidden, 27 visible; ~200 h; balcony meditation in Chapter 1; 15 manual save slots; Yago timed race in Chapter 3 (Race Against Yago, hourglass icon).' },
-  { n: 8, name: 'Insider Gaming', url: 'https://insider-gaming.com/complete-gta-6-trophy-list-how-to-get-all-trophies-achievements/', covers: 'Full list of all 55; 28 hidden trophies, many tied to the story; spoiler split between visible and hidden sections.' },
-  { n: 9, name: 'GTA Scoop', url: 'https://gtascoop.com/guides/gta-6-trophies-achievements/', covers: 'Full list; Personal Best = max strength of both characters; Let\u2019s Go Bowling = steal 3 valuables; five trophies still being confirmed; meditation guide lists all 18 spots.' },
-  { n: 10, name: 'GameMapa', url: 'https://gamemapa.com/en/gta-6/guides/gta-6-trophy-achievement-list/', covers: 'Full list of all 55 + Gamerscore; a 3-step roadmap; the missable note (Chapter 1 balcony meditation raises the counter by 1 but is not marked as a spot); five hidden trophies still unsolved (ids 44, 45, 49, 50, 51); per-trophy tips for Gunslinger, Hot Together, Retail Therapy, Catch Me If You Can, Personal Best, Sneakthief, Challenging Tank, Master of None, Stick Fiddler and the character strands.' },
-  { n: 11, name: 'eGamers', url: 'https://egamers.io/gta-6-trophy-list-all-55-trophies-and-achievements-plus-the-hardest-ones/', covers: 'Full list; hidden split 27 visible / 28 hidden; anything unconfirmed in two sources is marked unconfirmed; trophy-vs-checklist table (stunts 250 vs 300, races 20 vs 30, challenges 50 vs 70, cards 3 vs 15, meditation 18 vs 15, vaults 5 vs 8); hard-trophy tips for Maximum Withdrawal, Whip It Good, The Goodtime State, Gunslinger, Hot Together, Retail Therapy, Top Fun, Little Boxes, Sneakthief, Catch Me If You Can, Challenging Tank and Actions Speak Louder.' },
-  { n: 12, name: 'GTA Vice City Hub', url: 'https://www.gtavicecityhub.com/achievements', covers: 'Full list; grade-count dispute (PowerPyx + Insider Gaming 6 Silver / 46 Bronze vs Push Square 5 Silver / 47 Bronze); time 200 h vs 250+ h; Ten Pin, Personal Best and Let\u2019s Go Bowling readings; 100% checklist 35 tasks; save before big missions — story missions cannot be replayed, IGN reports.' },
+// Leonida Platinum v6 — vanilla JS, ES module, no dependencies, offline only.
+const KEY = 'leonida-platinum-v6';
+const COUNTS_KEY = 'leonida-platinum-v6-counts';
+const SPOILER_IDS = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 22, 23, 24, 26, 27];
+const SOURCE_NAMES = { 1: 'PowerPyx', 2: 'KeenGamer', 3: 'Push Square', 4: 'GTABase', 5: 'Exophase', 6: 'PSNProfiles', 7: 'OutputLag', 8: 'Insider Gaming', 9: 'GTA Scoop', 10: 'GameMapa', 11: 'eGamers', 12: 'GTA Vice City Hub', 13: 'CryptoGames', 14: 'Mobalytics', 15: 'GamesFuze' };
+const VS_CHECKLIST = [
+  ['Stunts', '250', '300', '[11]', 'The trophy pops at 250; the checklist needs 300.'],
+  ['Races (unique wins)', '20', '30', '[11]', 'The trophy pops at 20; the checklist needs 30.'],
+  ['Challenges', '50', '70 of 80', '[11]', 'The trophy pops at 50; the checklist needs 70.'],
+  ['Card sets', '3', '15 of 18', '[11]', 'The trophy pops at 3; the checklist needs 15.'],
+  ['Meditation spots', '18', '15', '[11][12]', 'The trophy needs 18; the checklist counts 15.'],
+  ['Bank vaults', '5', '8', '[11]', 'The trophy pops at 5; the checklist needs 8.'],
+  ['WAiNK locations', '100', '100', '[13]', 'Trophy and checklist agree: 100.'],
+  ['Shooting range golds', 'all (42)', '42', '[13]', 'The trophy needs gold in all of them; the checklist counts 42.'],
+  ['Stunt pool', '250 of 397', '300 of 397', '[13]', '397 stunts exist in Leonida; the trophy needs 250, the checklist 300.'],
 ];
-
-const DISPUTES = [
-  { id: 'D1', topic: 'Time to platinum: 200 vs 300 hours', a: 'PowerPyx, KeenGamer, GTABase: ~200 h (story 60-80, 100% checklist ~100, cleanup ~10).', b: 'Push Square: up to 300 h or more.', verdict: 'Plan on 200 h; treat 300 as the cautious upper bound for a slow, thorough run. The gap is pace, not content — every source agrees the 100% checklist is the long pole.', trophies: [1, 14] },
-  { id: 'D2', topic: 'Missable: 1 vs a watch on Strangers & Freaks', a: 'PowerPyx, KeenGamer, GTABase, GTA Scoop flag exactly 1 possibly missable: Positive Mental Attitude.', b: 'Stranger mission chains have windows linked to story progress, so id 25 is watched.', verdict: '1 missable (id 28). Id 25 is a WATCH, not a second missable: nothing in the cited sources calls a strand permanently missable, so no second missable is claimed.', trophies: [25, 28] },
-  { id: 'D3', topic: 'Personal Best: what counts as mass appeal', a: 'GTA Scoop + PowerPyx (via [12]): maxing the strength of both characters.', b: 'Push Square (via [12]): max body fat (Overweight).', verdict: 'SAFE PLAY (resolved): train strength on both Lucia and Jason, ideally at the gym together — [10] reports progress doubles when both train. The exact trigger is still unconfirmed — the trophy keeps its unconfirmed flag.', trophies: [47] },
-  { id: 'D4', topic: "Let's Go Bowling: what is follow-through", a: 'GTA Scoop + PowerPyx (via [12]): steal 3 valuables at the Kolt & Associates bowling alley; no guide says you bowl a game.', b: 'The big guides give no method beyond the official description.', verdict: 'SAFE PLAY (resolved): at the alley, take 3 valuables and leave cleanly. The exact trigger is still unconfirmed — the trophy keeps its unconfirmed flag.', trophies: [46] },
-  { id: 'D5', topic: 'Ten Pin: one reading, still unconfirmed', a: "Official description — bowl 'em over with a melee drive-by.", b: 'PowerPyx (via [12]) reads it as knocking 10 pedestrians off a bike within 60 seconds; GameMapa [10] still lists Ten Pin among the five hidden trophies unsolved.', verdict: 'SAFE PLAY (new): try it on a bike with a melee drive-by — but the method is one source\u2019s reading and [10] still lists it unsolved, so the trophy keeps its unconfirmed flag. No spot is claimed.', trophies: [51] },
-  { id: 'D6', topic: 'Gang operations: 1 per gang vs 39', a: 'Pest Control asks for one illegal operation per gang (9 gangs).', b: 'KeenGamer lists 39 gang operations in the 100% requirements.', verdict: 'Both are true. The trophy needs 1 per gang; 100% completion needs all 39. Do 1 per gang early for the trophy, then finish the remaining 30 for the checklist.', trophies: [43] },
-  { id: 'D7', topic: 'Meditation spots: 18 vs 15', a: 'GTA Scoop\u2019s meditation guide lists all 18 spots; the trophy text says every spot.', b: 'Some lists count fewer spots toward 100% completion; [12] confirms the checklist counts 15 meditation spots against the trophy\u2019s 18.', verdict: 'Do all 18, starting with the Chapter 1 balcony spot. The trophy says every spot, so 18 is the number to chase; the smaller count is a checklist detail, not the trophy.', trophies: [28] },
-  { id: 'D8', topic: 'Challenges: 50 vs 70 of 80', a: 'One Last Thing asks for 50 challenges.', b: 'PowerPyx and GTABase put 70 of the 80 challenges in the 100% requirements.', verdict: 'Both are true. The trophy pops at 50; keep going to 70 for the checklist, skipping the 10 hardest (PowerPyx).', trophies: [32] },
-  { id: 'D9', topic: 'Silver count: 6 vs 5', a: 'PowerPyx + Insider Gaming: 6 Silver / 46 Bronze (PSN total 1,350).', b: 'Push Square: 5 Silver / 47 Bronze (which implies a 1,335 total).', verdict: 'Follow the majority — 6 Silver / 46 Bronze, total 1,350. Push Square\u2019s count is off by one somewhere; the guide does NOT guess which trophy it is.', trophies: [1, 14] },
+const WINDOWS = [
+  ['Positive Mental Attitude (id 28)', 'Chapter 1 balcony meditation with Lucia at Jason\u2019s house, after \u201cDown to Earth\u201d — gone after Chapter 1.', 'Do it before leaving Chapter 1.'],
+  ['Stranger chains (ids 22, 23, 24, 26, 27, 29)', 'Five hidden trophies\u2019 chains have windows tied to story progress [13].', 'Start each chain as soon as it unlocks; do not leave strands for post-story.'],
+  ['Optional missions', 'Several become unavailable during certain story sections [2].', 'Take them when they appear (there are more than the 100 optional tasks the checklist needs, so missing a few does not block A Long Road).'],
+  ['Irredeemable profile', 'Permanent; do not trigger it on the trophy run [13].', 'Read the Criminal Profile guide before going on a rampage.'],
+  ['Maximum Withdrawal (id 40)', 'Needs the optional Chapter 4 mission \u201cThat\u2019s Where The Money Is\u2026\u201d [11].', 'Take it when it appears.'],
 ];
-
-const STAGES = [
-  { id: 'S1a', name: 'Story spine I', hours: 'Ch. 1\u20132 (of the 60\u201380 h story)', save: 'Chapter start + chapter end saves (10 slots). Do the Chapter 1 balcony meditation before Chapter 1 ends.', note: 'Chapters 1\u20132 + opening missions.' },
-  { id: 'S1b', name: 'Story spine II', hours: 'Ch. 3\u20134 + finale (of the 60\u201380 h story)', save: 'Keep the Chapter 1 save until Positive Mental Attitude pops; keep 1 untouched slot from just before the final mission.', note: 'Later story + story-linked.' },
-  { id: 'S2', name: 'Character strands', hours: '~10 h', save: 'Do each strand as it appears — several are only offered for a while.', note: 'Stranger and character strands.' },
-  { id: 'S3', name: 'Activities & skill', hours: '~25 h', save: 'No save needed — all activities stay open in free roam after the story.', note: 'Races, ranges, challenges and skills.' },
-  { id: 'S4', name: 'Collectibles & exploration', hours: '~30 h', save: 'Keep the Chapter 1 save until Positive Mental Attitude pops. Everything else is free-roam cleanup.', note: 'Cards, WAiNK, vehicles, areas, garages.' },
-  { id: 'S5', name: 'Crime & money', hours: '~25 h', save: 'No save needed — robberies and wanted-level play stay open after the story.', note: 'Robberies, vaults, escapes.' },
-  { id: 'S6', name: 'Platinum cleanup', hours: '10\u201320 h', save: 'Keep 1 untouched slot from just before the final mission, then rotate 4 cleanup saves.', note: '100% completion, then the platinum.' },
-];
-
-const LEDGER = [
-  { label: 'Vehicles scanned (WAiNK)', need: 200, of: 277, note: 'Scan with the WAiNK app as you travel; progress counts from the story onward.', src: '[1]' },
-  { label: 'Animals studied (binoculars)', need: 100, of: 255, note: 'Study through binoculars; counts from the story onward.', src: '[1]' },
-  { label: 'Weapons collected', need: 50, of: 66, note: 'Part of the 100% checklist; not every weapon is required.', src: '[1]' },
-  { label: 'Stunts completed', need: 250, of: 397, note: '397 stunts exist in total (Push Square); the trophy needs 250.', src: '[1, 3]' },
-  { label: 'Challenges completed', need: 70, of: 80, note: 'Trophy pops at 50; the checklist needs 70, so skip the 10 hardest.', src: '[1, 4]' },
-  { label: 'Collectible card sets', need: 15, of: 18, note: '18 sets exist; 15 full sets count toward 100%.', src: '[2, 3]' },
-  { label: 'Bank vaults robbed', need: 5, of: 8, note: 'Trophy needs 5 vaults and an escape; the checklist lists 8 vault robberies.', src: '[2]' },
-  { label: 'Bank jobs', need: 22, of: 22, note: 'All 22 bank jobs count toward 100%.', src: '[2]' },
-  { label: 'Payday loan jobs', need: 7, of: 7, note: 'All 7 payday loan jobs count toward 100%.', src: '[2]' },
-  { label: 'Gang operations', need: 39, of: 39, note: 'All 39 count toward 100%; the trophy needs 1 per gang (9).', src: '[2]' },
-  { label: 'Optional tasks', need: 100, of: 100, note: '100 optional tasks count toward 100%.', src: '[2]' },
-  { label: 'WAiNK locations', need: 100, of: 100, note: 'WAiNK It at 100 locations (also the You WAiNKer! trophy).', src: '[2]' },
-  { label: 'Underwater discoveries', need: 33, of: 33, note: '33 underwater discoveries count toward 100%.', src: '[2]' },
-  { label: 'Cocaine flamingos', need: 100, of: 100, note: '100 flamingos count toward 100%.', src: '[2]' },
-  { label: 'Shooting-range gold medals', need: 42, of: 42, note: 'Gold in all 42 Shooting Range challenges (also The Shootist).', src: '[2]' },
-];
-
-const VS_TABLE = [
-  { row: 'Stunts', trophy: '250', checklist: '300', src: '[11]', note: 'The trophy pops at 250; the checklist needs 300.' },
-  { row: 'Races (unique wins)', trophy: '20', checklist: '30', src: '[11]', note: 'The trophy pops at 20 unique wins; the checklist needs 30.' },
-  { row: 'Challenges', trophy: '50', checklist: '70 of 80', src: '[11]', note: 'The trophy pops at 50; the checklist needs 70 of 80.' },
-  { row: 'Card sets', trophy: '3', checklist: '15 of 18', src: '[11]', note: 'The trophy needs 3 full sets; the checklist needs 15 of 18.' },
-  { row: 'Meditation spots', trophy: '18', checklist: '15', src: '[11][12]', note: 'The trophy says every spot (18); the checklist counts 15. Do all 18.' },
-  { row: 'Bank vaults', trophy: '5', checklist: '8', src: '[11]', note: 'The trophy needs 5 vaults and an escape; the checklist lists 8.' },
-];
+const STAGE_WINDOWS = {
+  S1a: 'Window: the Chapter 1 balcony meditation (id 28) is gone after Chapter 1 — do it before leaving the chapter.',
+  S1b: 'Window: keep 1 untouched slot from just before the final mission. The Irredeemable profile is permanent — do not trigger it on the trophy run.',
+  S2: 'Window: stranger chains have windows tied to story progress — start each chain as soon as it unlocks.',
+  S4: 'Window: keep the Chapter 1 save until Positive Mental Attitude pops.',
+  S5: 'Window: Maximum Withdrawal (id 40) needs the optional Chapter 4 mission \u201cThat\u2019s Where The Money Is\u2026\u201d — take it when it appears.',
+};
 
 const params = new URLSearchParams(location.search);
-const COVER = params.get('cover') === '1';
-const SEED = Number(params.get('seed') || 0);
-const OPEN_ID = Number(params.get('open') || 0);
-let trophies = [];
-let matrix = null;
-let state = { earned: [], counts: {} };
-try {
-  const raw = localStorage.getItem(KEY);
-  if (raw) state = JSON.parse(raw);
-} catch (e) { state = { earned: [], counts: {} }; }
-if (!state.earned) state.earned = [];
-if (!state.counts) state.counts = {};
-function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
-function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
-function srcName(n) { const s = SOURCES.find(x => x.n === n); return s ? s.name : ('[' + n + ']'); }
-function trophyById(id) { return trophies.find(t => t.id === id); }
+const viewEl = document.getElementById('view');
+let DATA = null, MATRIX = null;
+let earned = new Set();
+let counts = {};
 
-function auditNumbers() {
-  const steps = trophies.reduce((a, t) => a + t.steps.length, 0);
-  const backed = trophies.reduce((a, t) => a + t.steps.filter(s => s.c2).length, 0);
-  return { steps, claims: steps + trophies.length, backed };
+function esc(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
-function renderAudit() {
-  const n = auditNumbers();
-  const unc = trophies.filter(t => t.unconfirmed).length;
-  document.getElementById('audit-strip').innerHTML =
-    '<span><b>' + n.claims + '</b> claims cited</span>' +
-    '<span><b>' + n.backed + ' / ' + n.steps + '</b> steps backed by 2+ sources</span>' +
-    '<span><b>12</b> sources, read 21 Nov 2026</span>' +
-    '<span><b>9</b> disputes shown</span>' +
-    '<span><b>' + unc + '</b> unconfirmed trophies</span>' +
-    '<span><b>1</b> missable (+1 watch)</span>' +
-    '<span>Last verified: <b>21 Nov 2026</b></span>';
-  document.getElementById('subtitle').textContent =
-    'GTA VI trophy guide & tracker \u2014 all 55 trophies, ' + n.steps + ' cited steps, 1,350 PSN points';
+function loadState() {
+  try { earned = new Set(JSON.parse(localStorage.getItem(KEY) || '[]')); } catch { earned = new Set(); }
+  try { counts = JSON.parse(localStorage.getItem(COUNTS_KEY) || '{}'); } catch { counts = {}; }
 }
-function renderProgress() {
-  const earned = new Set(state.earned);
-  const psn = trophies.filter(t => earned.has(t.id)).reduce((a, t) => a + t.psn_value, 0);
-  document.getElementById('prog-count').textContent = earned.size + ' / 55';
-  document.getElementById('prog-psn').textContent = earned.size ? (psn.toLocaleString('en-US') + ' / 1,350 PSN') : '0 / 1,350 PSN';
-  document.getElementById('prog-bar').style.width = (earned.size / 55 * 100) + '%';
-  const g = { platinum: [0, 1], gold: [0, 2], silver: [0, 6], bronze: [0, 46] };
-  trophies.forEach(t => { if (earned.has(t.id)) g[t.grade][0]++; });
-  document.getElementById('grade-counts').textContent =
-    'P ' + g.platinum[0] + '/1 \u00b7 G ' + g.gold[0] + '/2 \u00b7 S ' + g.silver[0] + '/6 \u00b7 B ' + g.bronze[0] + '/46';
+function saveState() {
+  localStorage.setItem(KEY, JSON.stringify([...earned]));
+  localStorage.setItem(COUNTS_KEY, JSON.stringify(counts));
+  updateProgress();
 }
-function watchLabel(t) {
+function trophyById(id) { return DATA.trophies.find((t) => t.id === id); }
+function gradeLabel(g) { return g.charAt(0).toUpperCase() + g.slice(1); }
+function watchTag(t) {
   if (t.watch === 'missable') return '<span class="tag red">MISSABLE</span>';
   if (t.watch === 'possible') return '<span class="tag blue">POSSIBLE MISSABLE</span>';
   if (t.watch === 'watch') return '<span class="tag blue">WATCH</span>';
-  return '';
+  return '<span class="tag">Safe</span>';
 }
-function cardHTML(t, opts) {
-  const earned = state.earned.includes(t.id);
-  const spoiler = document.getElementById('f-spoiler').checked;
-  const hidden = spoiler && STORY_IDS.includes(t.id) && !earned;
-  const disputes = DISPUTES.filter(d => d.trophies.includes(t.id));
-  const steps = t.steps.map((s, i) => {
-    const cites = '[' + s.c + ' ' + srcName(s.c) + ']' + (s.c2 ? ' [' + s.c2 + ' ' + srcName(s.c2) + ']' : '');
-    return '<li>' + esc(s.t) + ' <span class="cite">' + esc(cites) + '</span></li>';
-  }).join('');
-  const name = hidden ? '<span class="hidden-name">Story trophy \u2014 hidden until earned</span>' : esc(t.name);
-  const official = hidden ? '' : '<p class="official">&ldquo;' + esc(t.official) + '&rdquo;</p>';
-  return '<article class="card' + (t.watch === 'missable' ? ' missable' : '') + (opts && opts.open ? ' open' : '') + '" data-id="' + t.id + '">' +
-    '<label class="earned-box"><input type="checkbox" data-earn="' + t.id + '"' + (earned ? ' checked' : '') + '> Earned</label>' +
-    '<h3>#' + t.id + ' ' + name + ' <span class="grade">' + t.grade + '</span></h3>' + official +
-    '<div class="tags"><span class="tag gold">' + t.psn_value + ' PSN</span>' +
-    '<span class="tag">Stage ' + t.stage + ' \u00b7 #' + t.order + '</span>' +
-    '<span class="tag">' + t.kind + '</span>' + watchLabel(t) +
-    (t.unconfirmed ? '<span class="tag red">UNCONFIRMED</span>' : '') +
-    (t.target !== null ? '<span class="tag">target: ' + t.target.toLocaleString('en-US') + '</span>' : '') + '</div>' +
-    '<ol class="steps">' + steps + '</ol>' +
-    disputes.map(d => '<div class="diff-panel"><b>SOURCES DIFFER \u2014 ' + esc(d.topic) + ':</b> Side A: ' + esc(d.a) + ' vs Side B: ' + esc(d.b) + ' \u2014 Verdict: ' + esc(d.verdict) + '</div>').join('') +
-    '<div class="audit-strip"><b>Audit:</b> ' + esc(t.audit) + '</div>' +
-    '<p class="save-line"><b>Save:</b> ' + esc(t.save) + '</p></article>';
+function cite(n) { return `[${n} ${SOURCE_NAMES[n] || n}]`; }
+function stepsHtml(t) {
+  return '<ol class="steps">' + t.steps.map((s, i) =>
+    `<li>${esc(s.t)} <span class="cite">${cite(s.c)}${s.c2 ? ' ' + cite(s.c2) : ''}</span></li>`).join('') + '</ol>';
+}
+function disputesFor(id) {
+  return DATA.meta.disputes.filter((d) => d.trophies.includes(id));
+}
+function cardHtml(t, open) {
+  const d = disputesFor(t.id);
+  const diff = d.map((x) =>
+    `<div class="diff-panel"><strong>SOURCES DIFFER — ${esc(x.topic)}:</strong> Side A: ${esc(x.a)} Side B: ${esc(x.b)} <strong>Verdict:</strong> ${esc(x.verdict)}</div>`).join('');
+  return `<article class="trophy-card${t.watch === 'missable' ? ' missable' : ''}${open ? ' open-card' : ''}" id="trophy-${t.id}">
+    <label class="earned-box"><input type="checkbox" data-earn="${t.id}"${earned.has(t.id) ? ' checked' : ''}> Earned</label>
+    <h3>#${t.id} ${esc(t.name)} — ${gradeLabel(t.grade)}</h3>
+    <p class="official">${esc(t.official)}</p>
+    <div class="tags"><span class="tag gold">${t.psn_value} PSN</span><span class="tag gold">Xbox ${t.gamerscore}G (GamesFuze)</span><span class="tag">Stage ${t.stage} · #${t.order}</span><span class="tag">${t.kind}</span>${watchTag(t)}${t.unconfirmed ? '<span class="tag red">UNCONFIRMED</span>' : ''}${t.target !== null ? `<span class="tag">target: ${t.target.toLocaleString('en-US')}</span>` : ''}</div>
+    ${stepsHtml(t)}
+    ${diff}
+    <div class="audit-line"><strong>AUDIT:</strong> ${esc(t.audit)}</div>
+    <p class="save-line"><strong>SAVE:</strong> ${esc(t.save)}</p>
+  </article>`;
+}
+function updateProgress() {
+  const total = DATA.trophies.length;
+  const got = DATA.trophies.filter((t) => earned.has(t.id));
+  const psn = got.reduce((a, t) => a + t.psn_value, 0);
+  const g = { platinum: 0, gold: 0, silver: 0, bronze: 0 };
+  got.forEach((t) => { g[t.grade] += 1; });
+  document.getElementById('prog-count').textContent = `${got.length} / ${total}`;
+  document.getElementById('prog-psn').textContent = `${psn.toLocaleString('en-US')} / 1,350 PSN`;
+  document.getElementById('prog-grades').textContent = `P ${g.platinum}/1 · G ${g.gold}/2 · S ${g.silver}/6 · B ${g.bronze}/46`;
+  document.getElementById('progress-fill').style.width = `${(got.length / total) * 100}%`;
+  document.getElementById('your-count').textContent = `YOUR COUNT: ${got.length}/55 trophies · ${psn.toLocaleString('en-US')}/1,350 PSN`;
+}
+function renderAudit() {
+  const steps = DATA.trophies.reduce((a, t) => a + t.steps.length, 0);
+  const backed = DATA.trophies.reduce((a, t) => a + t.steps.filter((s) => 'c2' in s).length, 0);
+  document.getElementById('audit-strip').innerHTML =
+    `<b>AUDIT:</b> ${steps + 55} claims cited · ${backed} / ${steps} steps backed by 2+ sources · 15 sources · 13 disputes · 7 unconfirmed · 1 missable (+1 watch) · verified 21 Nov 2026`;
+  document.getElementById('subtitle').textContent =
+    `GTA VI trophy guide & tracker — all 55 trophies, ${steps} cited steps, 1,350 PSN points`;
+}
+function nextUp() {
+  const un = DATA.trophies.filter((t) => !earned.has(t.id));
+  const stageProg = {};
+  for (const s of DATA.meta.stages) {
+    const ids = s.trophy_ids;
+    stageProg[s.id] = ids.filter((id) => earned.has(id)).length / ids.length;
+  }
+  const tier = (t) => (t.id === 28 ? 0 : t.id === 25 ? 1 : 2);
+  un.sort((a, b) => tier(a) - tier(b) || stageProg[b.stage] - stageProg[a.stage] || a.steps.length - b.steps.length);
+  const top = un.slice(0, 3);
+  const reason = (t) => t.id === 28 ? 'Missable — do before Chapter 1 ends' : t.id === 25 ? 'Watch — stranger chains have story windows' : `Stage ${t.stage} — ${t.steps.length} steps left`;
+  return `<section class="nextup"><h3>Next Up</h3><ol>${top.map((t) => `<li><strong>#${t.id} ${esc(t.name)}</strong> <span class="reason">— ${reason(t)}</span></li>`).join('')}</ol></section>`;
 }
 function renderChecklist() {
-  const q = (document.getElementById('q').value || '').toLowerCase();
-  const kind = document.getElementById('f-kind').value;
-  const grade = document.getElementById('f-grade').value;
-  const stage = document.getElementById('f-stage').value;
-  const unearnedOnly = document.getElementById('f-unearned').checked;
-  let list = [...trophies].sort((a, b) => a.order - b.order);
-  if (COVER) list = list.filter(t => t.id === 28);
-  if (OPEN_ID && !COVER) {
-    const open = list.find(t => t.id === OPEN_ID);
-    if (open) list = [open, ...list.filter(t => t.id !== OPEN_ID)];
-  }
-  const shown = list.filter(t => {
-    if (kind && t.kind !== kind) return false;
-    if (grade && t.grade !== grade) return false;
-    if (stage && t.stage !== stage) return false;
-    if (unearnedOnly && state.earned.includes(t.id)) return false;
-    if (q && !(t.name.toLowerCase().includes(q) || t.official.toLowerCase().includes(q))) return false;
-    return true;
+  const kind = params.get('kind') || 'all';
+  const grade = params.get('grade') || 'all';
+  const stage = params.get('stage') || 'all';
+  const q = (params.get('q') || '').toLowerCase();
+  const spoiler = params.get('spoiler') === 'on';
+  const unearnedOnly = params.get('unearned') === 'on';
+  const openId = Number(params.get('open') || 0);
+  const stageOpts = DATA.meta.stages.map((s) => `<option value="${s.id}"${stage === s.id ? ' selected' : ''}>${s.id} ${esc(s.name)}</option>`).join('');
+  let list = [...DATA.trophies].sort((a, b) => a.order - b.order);
+  if (openId) list.sort((a, b) => (a.id === openId ? -1 : b.id === openId ? 1 : 0));
+  const shown = list.filter((t) =>
+    (kind === 'all' || t.kind === kind) && (grade === 'all' || t.grade === grade) &&
+    (stage === 'all' || t.stage === stage) &&
+    (!q || t.name.toLowerCase().includes(q) || t.official.toLowerCase().includes(q)) &&
+    (!spoiler || !SPOILER_IDS.includes(t.id)) && (!unearnedOnly || !earned.has(t.id)));
+  viewEl.innerHTML = `
+    ${nextUp()}
+    <div class="filters">
+      <input type="search" id="f-q" placeholder="Search trophy name or word" value="${esc(params.get('q') || '')}">
+      <select id="f-kind"><option value="all">All kinds</option>${['story', 'strand', 'activity', 'collectible', 'crime', 'cleanup'].map((k) => `<option${kind === k ? ' selected' : ''}>${k}</option>`).join('')}</select>
+      <select id="f-grade"><option value="all">All grades</option>${['platinum', 'gold', 'silver', 'bronze'].map((k) => `<option${grade === k ? ' selected' : ''}>${k}</option>`).join('')}</select>
+      <select id="f-stage"><option value="all">All stages</option>${stageOpts}</select>
+      <label><input type="checkbox" id="f-spoiler"${spoiler ? ' checked' : ''}> Hide story spoilers (17)</label>
+      <label><input type="checkbox" id="f-unearned"${unearnedOnly ? ' checked' : ''}> Unearned only</label>
+      <button id="f-export">Export progress</button>
+      <label class="btn">Import progress <input type="file" id="f-import" accept=".json" hidden></label>
+    </div>
+    <p class="showing">Showing ${shown.length} of 55 trophies.</p>
+    ${shown.map((t) => cardHtml(t, t.id === openId)).join('')}`;
+  const apply = () => {
+    const p = new URLSearchParams();
+    const qv = document.getElementById('f-q').value.trim();
+    if (qv) p.set('q', qv);
+    if (document.getElementById('f-kind').value !== 'all') p.set('kind', document.getElementById('f-kind').value);
+    if (document.getElementById('f-grade').value !== 'all') p.set('grade', document.getElementById('f-grade').value);
+    if (document.getElementById('f-stage').value !== 'all') p.set('stage', document.getElementById('f-stage').value);
+    if (document.getElementById('f-spoiler').checked) p.set('spoiler', 'on');
+    if (document.getElementById('f-unearned').checked) p.set('unearned', 'on');
+    location.search = '?' + p.toString();
+  };
+  document.getElementById('f-q').addEventListener('change', apply);
+  ['f-kind', 'f-grade', 'f-stage', 'f-spoiler', 'f-unearned'].forEach((id) => document.getElementById(id).addEventListener('change', apply));
+  document.getElementById('f-export').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify({ key: KEY, earned: [...earned], counts }, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'leonida-platinum-progress.json'; a.click();
   });
-  document.getElementById('showing').textContent = 'Showing ' + shown.length + ' of 55 trophies.';
-  document.getElementById('cards').innerHTML = shown.map(t => cardHTML(t, { open: t.id === OPEN_ID || (COVER && t.id === 28) })).join('') || '<p class="note">No trophies match these filters.</p>';
-  document.querySelectorAll('[data-earn]').forEach(cb => cb.addEventListener('change', () => {
-    const id = Number(cb.dataset.earn);
-    if (cb.checked) { if (!state.earned.includes(id)) state.earned.push(id); }
-    else state.earned = state.earned.filter(x => x !== id);
-    save(); renderProgress(); renderNextUp(); renderRoadmap();
-  }));
-}
-function renderNextUp() {
-  const rank = { missable: 0, possible: 1, watch: 2, safe: 3 };
-  const stageProg = {};
-  STAGES.forEach(s => {
-    const ts = trophies.filter(t => t.stage === s.id);
-    stageProg[s.id] = ts.filter(t => state.earned.includes(t.id)).length / Math.max(1, ts.length);
+  document.getElementById('f-import').addEventListener('change', (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = () => {
+      try {
+        const j = JSON.parse(r.result);
+        if (Array.isArray(j.earned)) { earned = new Set(j.earned.filter((id) => trophyById(id))); }
+        if (j.counts) counts = j.counts;
+        saveState(); renderChecklist();
+      } catch { alert('That file is not a Leonida Platinum progress file.'); }
+    };
+    r.readAsText(f);
   });
-  const todo = trophies.filter(t => !state.earned.includes(t.id))
-    .sort((a, b) => (rank[a.watch] - rank[b.watch]) || (stageProg[b.stage] - stageProg[a.stage]) || (a.steps.length - b.steps.length))
-    .slice(0, 3);
-  const reason = t => t.watch === 'missable' ? 'Missable \u2014 do before Chapter 1 ends'
-    : t.watch === 'possible' ? 'Possible missable \u2014 stranger strands have windows'
-    : t.watch === 'watch' ? 'Watch \u2014 needs a partner or a specific setup'
-    : 'Stage ' + t.stage + ' \u2014 ' + t.steps.length + ' steps left';
-  document.getElementById('nextup').innerHTML = '<h2>Next Up</h2><ol>' +
-    todo.map(t => '<li><b>#' + t.id + ' ' + esc(t.name) + '</b> \u2014 ' + reason(t) + '</li>').join('') + '</ol>';
 }
+function renderCover() {
+  document.body.classList.add('cover');
+  const t = trophyById(28);
+  document.getElementById('cover').innerHTML = cardHtml(t, true) +
+    '<p class="cover-line">13 disputes · 15 sources · 7-stage roadmap · YOUR COUNT in the header</p>';
+}
+
+const STAGE_SUMMARY = {
+  S1a: 'Chapter start+end saves. Window: Ch.1 balcony gone after Ch.1.',
+  S1b: 'Ch.1 save until PMA pops; 1 untouched pre-final save.',
+  S2: 'Do strands as they appear. Window: chains have story windows.',
+  S3: 'No save needed — free roam after story.',
+  S4: 'Keep Ch.1 save until PMA pops.',
+  S5: 'No save needed. Window: Max Withdrawal needs the Ch.4 optional mission.',
+  S6: '1 untouched pre-final save; rotate 4 cleanup saves.',
+};
 function renderRoadmap() {
-  document.getElementById('roadmap').innerHTML =
-    '<p class="note">Seven stages, 55 trophies, 1,350 PSN, about 200 hours. Save plan: 15 manual slots + 1 autosave; 10 chapter start/end, 1 untouched pre-final, 4 rotating cleanup.</p>' +
-    '<table class="roadmap"><thead><tr><th>Stage</th><th>Trophies</th><th>PSN</th><th>Hours</th><th>Save plan</th></tr></thead><tbody>' +
-    STAGES.map(s => {
-      const ts = trophies.filter(t => t.stage === s.id).sort((a, b) => a.order - b.order);
-      const got = ts.filter(t => state.earned.includes(t.id)).length;
+  const summary = `<div class="table-wrap"><table class="summary-table"><thead><tr><th>Stage</th><th>Trophies</th><th>PSN</th><th>Hours</th><th>Save / window</th></tr></thead><tbody>
+    ${DATA.meta.stages.map((s) => {
+      const ts = s.trophy_ids.map(trophyById);
       const psn = ts.reduce((a, t) => a + t.psn_value, 0);
-      return '<tr><td><b>' + s.id + ' \u2014 ' + esc(s.name) + '</b><br><span class="note">' + got + '/' + ts.length + ' earned \u00b7 ' + esc(s.note) + '</span></td>' +
-        '<td class="names">' + ts.map(t => (state.earned.includes(t.id) ? '\u2713' : '\u25cb') + ' #' + t.id + ' ' + esc(t.name)).join(' \u00b7 ') + '</td>' +
-        '<td><b>' + psn + '</b></td><td>' + esc(s.hours) + '</td><td class="save">' + esc(s.save) + '</td></tr>';
-    }).join('') + '</tbody></table>';
+      return `<tr><td><strong>${s.id} — ${esc(s.name)}</strong></td><td>${ts.length}</td><td>${psn}</td><td>${esc(s.hours)}</td><td>${esc(STAGE_SUMMARY[s.id])}</td></tr>`;
+    }).join('')}</tbody></table></div>`;
+  const blocks = DATA.meta.stages.map((s) => {
+    const ts = s.trophy_ids.map(trophyById);
+    const got = ts.filter((t) => earned.has(t.id)).length;
+    const psn = ts.reduce((a, t) => a + t.psn_value, 0);
+    const win = STAGE_WINDOWS[s.id] ? `<p class="window-note">${esc(STAGE_WINDOWS[s.id])}</p>` : '';
+    return `<section class="stage-block"><h3>${s.id} — ${esc(s.name)} · ${got}/${ts.length} earned</h3>
+      <p><strong>${psn} PSN · ${esc(s.hours)}</strong> — ${esc(s.note)}</p>
+      <p><strong>Save:</strong> ${esc(s.save)}</p>${win}
+      <ul>${ts.map((t) => `<li>${earned.has(t.id) ? '✓' : '○'} #${t.id} ${esc(t.name)} (${t.psn_value} PSN)</li>`).join('')}</ul></section>`;
+  }).join('');
+  viewEl.innerHTML = `<p class="note">Seven stages, 55 trophies, 1,350 PSN, about 200 hours. Save plan: 15 manual slots + 1 autosave; 10 chapter start/end, 1 untouched pre-final, 4 rotating cleanup.</p>${summary}${blocks}`;
 }
 function renderMatrix() {
-  const meta = matrix.meta;
-  const sps = meta.steps_per_source;
-  const spsLine = Object.keys(sps).sort((a, b) => a - b).map(k => '[' + k + '] ' + sps[k] + ([5, 6, 8].includes(Number(k)) ? ' (list tracker)' : '')).join(' \u00b7 ');
-  const shortNames = ['PowerPyx', 'KeenGamer', 'Push Sq.', 'GTABase', 'Exophase', 'PSNProf.', 'OutputLag', 'Insider', 'GTA Scoop', 'GameMapa', 'eGamers', 'VC Hub'];
-  document.getElementById('matrix').innerHTML =
-    '<p class="note">' + esc(meta.agreement) + '</p>' +
-    '<table class="matrix"><thead><tr><th>#</th><th>Trophy</th>' +
-    shortNames.map((s, i) => '<th>[' + (i + 1) + '] ' + esc(s) + '</th>').join('') + '<th>Dispute</th></tr></thead><tbody>' +
-    matrix.rows.map(r => {
-      const t = trophyById(r.id);
-      return '<tr><td>' + r.id + '</td><td class="tname">' + esc(t ? t.name : '') + '</td>' +
-        r.cells.map(c => '<td class="' + (c.includes('C') ? 'c' : '') + '">' + esc(c) + '</td>').join('') +
-        '<td class="' + (r.dispute ? 'd' : '') + '">' + (r.dispute ? esc(r.dispute) : '') + '</td></tr>';
-    }).join('') + '</tbody></table>' +
-    '<p class="note">' + esc(meta.legend) + '</p><p class="note">Steps per source: ' + esc(spsLine) + '</p>';
+  const sps = MATRIX.meta.steps_per_source;
+  const spsLine = Object.keys(sps).sort((a, b) => a - b).map((n) => `[${n}] ${sps[n]}${[5, 6, 8].includes(Number(n)) ? ' (list tracker)' : ''}`).join(' · ');
+  const SHORT = { 1: 'PPyx', 2: 'Keen', 3: 'Push', 4: 'GTA', 5: 'Exo', 6: 'PSNP', 7: 'Out', 8: 'Ins', 9: 'Scoop', 10: 'GM', 11: 'eGam', 12: 'Hub', 13: 'Crypto', 14: 'Mob', 15: 'GFuze' };
+  const heads = MATRIX.meta.sources.map((s, i) => `<th>${SHORT[i + 1]}</th>`).join('');
+  const rows = MATRIX.rows.map((r) => {
+    const t = trophyById(r.id);
+    return `<tr><td>${r.id}</td><td>${esc(t.name)}</td>${r.cells.map((c) => `<td class="${c.includes('C') ? 'c' : ''}">${c}</td>`).join('')}<td class="dispute">${r.dispute ? esc(r.dispute) : ''}</td></tr>`;
+  }).join('');
+  viewEl.innerHTML = `<p class="note">${esc(MATRIX.meta.agreement)}</p>
+    <div class="table-wrap"><table class="matrix-table"><thead><tr><th>#</th><th>Trophy</th>${heads}<th>Dispute</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <p class="legend"><strong>Legend:</strong> L = source publishes the trophy's name, description and grade. G = source also carries a walkthrough. C = at least one numbered step for this trophy cites that source. Every cell carries L: all 15 sources publish all 55 trophies.</p>
+    <p class="legend"><strong>Steps per source:</strong> ${esc(spsLine)}</p>`;
 }
 function renderDisputes() {
-  document.getElementById('disputes').innerHTML =
-    '<p class="note">Nine places where the sources disagree or stay silent. Each one ends in a verdict \u2014 and where the verdict is \u201cnot invented\u201d, the guide says so on the trophy itself.</p>' +
-    DISPUTES.map(d => '<div class="dispute-block"><h3>' + d.id + ' \u2014 ' + esc(d.topic) + '</h3>' +
-      '<p><b>Side A:</b> ' + esc(d.a) + '</p><p><b>Side B:</b> ' + esc(d.b) + '</p>' +
-      '<p class="verdict"><b>Verdict:</b> ' + esc(d.verdict) + '</p>' +
-      '<p><b>Trophies:</b> ' + d.trophies.map(id => { const t = trophyById(id); return '#' + id + ' ' + esc(t ? t.name : ''); }).join(', ') + '</p></div>').join('');
-}
-function renderLedger() {
-  document.getElementById('ledger').innerHTML =
-    '<p class="note">The 100% Completion Checklist in 15 counters. The trophy needs 50 challenges and 3 card sets; the checklist needs 70 of 80 challenges and 15 of 18 sets. The checklist is closer to 60% true completion \u2014 not everything is required. The checklist has 35 tasks (Insider Gaming via [12]).</p>' +
-    LEDGER.map((c, i) => '<div class="ledger-row"><h3>' + c.need + ' / ' + c.of + ' \u2014 ' + esc(c.label) + '</h3><p>' + esc(c.note) + ' ' + esc(c.src) + '</p></div>').join('');
+  viewEl.innerHTML = `<p class="note">Thirteen places where the sources disagree or stay silent. Each one ends in a verdict — and where the verdict is 'not invented', the guide says so on the trophy itself.</p>` +
+    DATA.meta.disputes.map((d) => `<section class="dispute-block"><h3>${d.id} — ${esc(d.topic)}</h3>
+      <p><strong>Side A:</strong> ${esc(d.a)}</p><p><strong>Side B:</strong> ${esc(d.b)}</p>
+      <p><strong>Verdict:</strong> ${esc(d.verdict)}</p>
+      <p><strong>Trophies:</strong> ${d.trophies.map((id) => `#${id} ${esc(trophyById(id).name)}`).join(', ')}</p></section>`).join('');
 }
 function renderCounts() {
-  const overall = LEDGER.reduce((a, c, i) => a + Math.min(1, (state.counts[i] || 0) / c.need), 0) / LEDGER.length;
-  document.getElementById('counts').innerHTML =
-    '<p class="note">Interactive 100% ledger: tap + / \u2212 to track each counter. Overall 100% progress: <b>' + Math.round(overall * 100) + '%</b> of the 15 counters at their trophy need.</p>' +
-    '<div class="stage-block"><h3>Trophy vs 100% checklist \u2014 both numbers</h3>' +
-    '<p class="note">eGamers [11] publishes both numbers side by side and does not pick one \u2014 this guide does the same. Each row says which number pops the trophy and which the checklist needs.</p>' +
-    '<table class="vs"><thead><tr><th></th><th>Trophy</th><th>Checklist</th><th>Sources</th><th>Which number counts</th></tr></thead><tbody>' +
-    VS_TABLE.map(v => '<tr><td><b>' + esc(v.row) + '</b></td><td>' + esc(v.trophy) + '</td><td>' + esc(v.checklist) + '</td><td>' + esc(v.src) + '</td><td>' + esc(v.note) + '</td></tr>').join('') +
-    '</tbody></table></div>' +
-    LEDGER.map((c, i) => {
-      const have = state.counts[i] || 0;
-      const pct = Math.min(100, Math.round(have / c.need * 100));
-      return '<div class="counter-row"><div class="cinfo"><b>' + have + ' / ' + c.need + '</b> \u2014 ' + esc(c.label) + ' <span class="note">(of ' + c.of + ')</span></div>' +
-        '<div class="cbtns"><button data-count="' + i + '" data-d="-1" type="button">\u2212</button><button data-count="' + i + '" data-d="1" type="button">+</button></div>' +
-        '<div class="bar"><div class="bar-fill" style="width:' + pct + '%"></div></div>' +
-        '<p class="counter-note">' + esc(c.note) + ' ' + esc(c.src) + '</p></div>';
-    }).join('');
-  document.querySelectorAll('[data-count]').forEach(b => b.addEventListener('click', () => {
-    const i = Number(b.dataset.count);
-    const cur = state.counts[i] || 0;
-    state.counts[i] = Math.max(0, Math.min(LEDGER[i].of, cur + Number(b.dataset.d)));
-    save(); renderCounts();
-  }));
-}
-function renderSources() {
-  const counts = {};
-  trophies.forEach(t => t.steps.forEach(s => { counts[s.c] = (counts[s.c] || 0) + 1; if (s.c2) counts[s.c2] = (counts[s.c2] || 0) + 1; }));
-  document.getElementById('sources').innerHTML =
-    '<p class="note">12 sources, read 21 Nov 2026. Coverage count = how many steps cite the source (primary + second-source backing).</p>' +
-    SOURCES.map(s => '<div class="source-block"><h3>[' + s.n + '] ' + esc(s.name) + '</h3>' +
-      '<p>' + esc(s.covers) + '</p><p class="note">' + (s.url ? esc(s.url) : 'Cited by name only \u2014 no URL captured 21 Nov 2026, none guessed.') + '</p>' +
-      '<p class="note">Read 21 Nov 2026 \u00b7 cited by ' + (counts[s.n] || 0) + ' steps.</p></div>').join('');
+  const ledger = DATA.meta.ledger;
+  let have = 0, need = 0;
+  ledger.forEach((c, i) => {
+    const v = Math.min(counts[i] || 0, c.of);
+    have += Math.min(v, c.need); need += c.need;
+  });
+  const pct = need ? Math.round((have / need) * 100) : 0;
+  const rows = ledger.map((c, i) => {
+    const v = counts[i] || 0;
+    const pctC = Math.min(100, Math.round((v / c.of) * 100));
+    return `<div class="counter-row"><span class="label"><strong>${v} / ${c.of}</strong> — ${esc(c.label)}<br><span class="cnote">${esc(c.note)} [${c.sources.join(', ')}]</span></span>
+      <span class="bar"><div style="width:${pctC}%"></div></span>
+      <button data-count="${i}" data-d="-1" aria-label="decrease">−</button>
+      <button data-count="${i}" data-d="1" aria-label="increase">+</button></div>`;
+  }).join('');
+  const vs = `<div class="table-wrap"><table class="compact-table"><thead><tr><th>Item</th><th>Trophy needs</th><th>100% checklist asks</th><th>Sources</th><th>Which number pops what</th></tr></thead><tbody>
+    ${VS_CHECKLIST.map((r) => `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td><td>${esc(r[4])}</td></tr>`).join('')}</tbody></table></div>`;
+  viewEl.innerHTML = `<p class="note">15 counters for the 100% Completion Checklist (35 tasks [12]). Trophy: 50 challenges, 3 card sets. Checklist: 70 of 80 challenges, 15 of 18 sets. <strong>Overall: ${have.toLocaleString('en-US')} / ${need.toLocaleString('en-US')} (${pct}%)</strong></p>
+    <h3>Trophy vs 100% checklist — both numbers</h3>${vs}
+    ${rows}
+    <p class="note"><strong>Xbox total 1,000G</strong> (all lists agree on the total; individual values differ between lists — see D12).</p>`;
 }
 function renderMissables() {
-  const card = id => { const t = trophyById(id); return t ? cardHTML(t, {}) : ''; };
-  document.getElementById('missables').innerHTML =
-    '<div class="tier-block"><h3>MISSABLE \u2014 exactly 1</h3><p>Id 28 Positive Mental Attitude: do the Chapter 1 balcony meditation before Chapter 1 ends and keep a Chapter 1 save until it pops. There is no mission replay.</p>' + card(28) + '</div>' +
-    '<div class="tier-block"><h3>WATCH \u2014 1 possible</h3><p>Id 25 Strangers &amp; Freaks: stranger chains have windows linked to story progress. Not a second missable — nothing in the cited sources calls a strand permanently missable.</p>' + card(25) + '</div>' +
-    '<div class="tier-block"><h3>UNCONFIRMED \u2014 7</h3>' +
-    '<p>Id 51 Ten Pin: still open, one reading (PowerPyx), not confirmed. Id 29 Fair Game: which animal still being confirmed \u2014 the strand names it. The other five (28, 46, 47, 49, 50) have a resolved safe play.</p>' +
-    [28, 29, 46, 47, 49, 50, 51].map(card).join('') + '</div>';
+  const un = [28, 29, 46, 47, 49, 50, 51].map(trophyById);
+  const unNote = (t) => t.id === 51 ? ' — still open, one reading (PowerPyx), not confirmed' : t.id === 29 ? ' — which animal still being confirmed — the strand names it' : '';
+  viewEl.innerHTML = `
+    <section class="tier"><h3>MISSABLE — exactly 1</h3><p><strong>#28 Positive Mental Attitude:</strong> do the Chapter 1 balcony meditation with Lucia before Chapter 1 ends, and keep a Chapter 1 save until it pops. There is no mission replay.</p></section>
+    <section class="tier"><h3>WATCH — 1</h3><p><strong>#25 Strangers &amp; Freaks:</strong> stranger chains have windows tied to story progress (dispute D2, warning D13). Not a second missable — nothing calls a strand permanently missable — but start each chain as soon as it unlocks.</p></section>
+    <section class="tier"><h3>UNCONFIRMED — 7</h3><ul>${un.map((t) => `<li><strong>#${t.id} ${esc(t.name)}</strong>${unNote(t)}</li>`).join('')}</ul></section>
+    <section class="tier"><h3>SAFE — 46</h3><p>Every other trophy is safe: nothing in the cited sources makes it missable. The 7 watch trophies are #33 Hot Together, #34 Retail Therapy, #37 Catch Me If You Can, #38 Challenging Tank, #39 Sneakthief, #41 A Classic Blitz Play and #45 Capital Offense — each needs a specific setup, not a deadline.</p></section>`;
 }
-function showView(v) {
-  document.body.classList.remove('view-checklist', 'view-roadmap', 'view-matrix', 'view-disputes', 'view-ledger', 'view-counts', 'view-sources', 'view-missables');
-  document.body.classList.add('view-' + v);
-  document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('active', b.dataset.view === v));
-  document.querySelectorAll('.view').forEach(s => s.classList.toggle('active', s.id === 'view-' + v));
-  if (v === 'roadmap') renderRoadmap();
-  if (v === 'matrix') renderMatrix();
-  if (v === 'disputes') renderDisputes();
-  if (v === 'ledger') renderLedger();
-  if (v === 'counts') renderCounts();
-  if (v === 'sources') renderSources();
-  if (v === 'missables') renderMissables();
+function renderWindows() {
+  viewEl.innerHTML = `<p class="note">Every story-progress window in one table. The Missables view links here; the roadmap repeats each stage's note.</p>
+    <div class="table-wrap"><table><thead><tr><th>Window</th><th>When it closes</th><th>Safe play</th></tr></thead><tbody>
+    ${WINDOWS.map((r) => `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function renderSources() {
+  const coverage = {};
+  for (let n = 1; n <= 15; n += 1) {
+    coverage[n] = DATA.trophies.filter((t) => t.steps.some((s) => s.c === n || s.c2 === n)).length;
+  }
+  viewEl.innerHTML = `<p class="note">15 sources, read 21 Nov 2026.</p>` + DATA.meta.sources.map((s) => {
+    const cov = coverage[s.n];
+    const covLine = [5, 6, 8].includes(s.n)
+      ? `${cov} step citations — list tracker: verifies all 55 names, descriptions and grades.`
+      : `${cov} of 55 trophies have at least one step citing this source.`;
+    return `<section class="source-block"><h3>[${s.n}] ${esc(s.name)}</h3>
+      <p>${s.url ? `<a href="${esc(s.url)}">${esc(s.url)}</a>` : 'Cited by name only — no direct URL was captured on 21 Nov 2026, none is guessed.'}</p>
+      <p>${esc(s.covers)}</p><p><strong>Read:</strong> ${esc(s.read)} · <strong>Coverage:</strong> ${covLine}</p></section>`;
+  }).join('') +
+  `<p class="note">Official trophy names and descriptions are shown as PlayStation publishes them. Every guide step is written in our own words and cites its source by number.</p>`;
+}
+function setTab(view) {
+  document.querySelectorAll('#tabs button').forEach((b) => b.classList.toggle('active', b.dataset.view === view));
+}
+function render() {
+  const view = params.get('view') || 'checklist';
+  const map = { checklist: renderChecklist, roadmap: renderRoadmap, matrix: renderMatrix, disputes: renderDisputes, disagreements: renderDisputes, counts: renderCounts, ledger: renderCounts, missables: renderMissables, windows: renderWindows, sources: renderSources };
+  setTab(map[view] ? (view === 'ledger' ? 'counts' : view === 'disagreements' ? 'disputes' : view) : 'checklist');
+  (map[view] || renderChecklist)();
+  updateProgress();
 }
 async function init() {
-  const [tRes, mRes] = await Promise.all([fetch('data/trophies.json'), fetch('data/matrix.json')]);
-  const tData = await tRes.json();
-  matrix = await mRes.json();
-  trophies = tData.trophies.sort((a, b) => a.order - b.order);
-  if (SEED > 0 && !localStorage.getItem(KEY)) {
-    state.earned = trophies.slice(0, SEED).map(t => t.id);
-    save();
+  loadState();
+  const [t, m] = await Promise.all([fetch('data/trophies.json').then((r) => r.json()), fetch('data/matrix.json').then((r) => r.json())]);
+  DATA = t; MATRIX = m;
+  const seed = Number(params.get('seed') || 0);
+  if (seed > 0 && !localStorage.getItem(KEY)) {
+    earned = new Set([...DATA.trophies].sort((a, b) => a.order - b.order).slice(0, seed).map((x) => x.id));
+    saveState();
   }
-  if (COVER) document.body.classList.add('cover');
-  const kindParam = params.get('kind');
-  if (kindParam) document.getElementById('f-kind').value = kindParam;
-  if (params.get('spoiler') === 'on') document.getElementById('f-spoiler').checked = true;
-  renderAudit(); renderProgress(); renderChecklist(); renderNextUp();
-  const view = COVER ? 'checklist' : (params.get('view') || 'checklist');
-  showView(['checklist', 'roadmap', 'matrix', 'disputes', 'ledger', 'counts', 'sources', 'missables'].includes(view) ? view : 'checklist');
-  document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => showView(b.dataset.view)));
-  document.querySelectorAll('[data-goto]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); showView(a.dataset.goto); }));
-  ['q', 'f-kind', 'f-grade', 'f-stage', 'f-spoiler', 'f-unearned'].forEach(id => document.getElementById(id).addEventListener('input', renderChecklist));
-  document.getElementById('export-btn').addEventListener('click', () => {
-    const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'leonida-platinum-progress.json';
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  renderAudit();
+  if (params.get('cover') === '1') { renderCover(); updateProgress(); return; }
+  render();
+  document.getElementById('tabs').addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-view]');
+    if (!b) return;
+    const p = new URLSearchParams(location.search);
+    p.set('view', b.dataset.view);
+    history.pushState(null, '', '?' + p.toString());
+    const np = new URLSearchParams(location.search);
+    params.set('view', np.get('view'));
+    render();
   });
-  document.getElementById('import-file').addEventListener('change', async e => {
-    const f = e.target.files[0];
-    if (!f) return;
-    try {
-      const data = JSON.parse(await f.text());
-      if (Array.isArray(data.earned)) state.earned = data.earned.filter(id => trophies.some(t => t.id === id));
-      if (data.counts) state.counts = data.counts;
-      save(); renderProgress(); renderChecklist(); renderNextUp();
-    } catch (err) { alert('Could not read that progress file.'); }
+  document.addEventListener('change', (e) => {
+    const el = e.target;
+    if (el.matches('[data-earn]')) {
+      const id = Number(el.dataset.earn);
+      if (el.checked) earned.add(id); else earned.delete(id);
+      saveState();
+      if (params.get('view') === 'roadmap') render();
+    }
+    if (el.matches('[data-count]')) return;
+  });
+  document.addEventListener('click', (e) => {
+    const el = e.target.closest('[data-count]');
+    if (!el) return;
+    const i = Number(el.dataset.count);
+    const d = Number(el.dataset.d);
+    counts[i] = Math.max(0, (counts[i] || 0) + d);
+    saveState(); renderCounts();
   });
 }
 init();
